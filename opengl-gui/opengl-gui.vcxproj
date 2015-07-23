@@ -14,10 +14,11 @@
     <ProjectGuid>{237367C8-8BF7-41EB-8197-8FDA7A6F7AEA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>openglgui</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -80,18 +81,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Input\InputState.h" />
+    <ClInclude Include="include\Widgets\Canvas.h" />
+    <ClInclude Include="include\Drawables\Drawable.h" />
+    <ClInclude Include="include\Widgets\Grid.h" />
+    <ClInclude Include="include\Borders\Border.h" />
     <ClInclude Include="include\Events\EventSubscription.h" />
     <ClInclude Include="include\Events\Event.h" />
-    <ClInclude Include="include\Widget.h" />
-    <ClInclude Include="include\Events\KeyboardState.h" />
-    <ClInclude Include="include\Events\MouseState.h" />
+    <ClInclude Include="include\Widgets\Widget.h" />
+    <ClInclude Include="include\Input\KeyboardState.h" />
+    <ClInclude Include="include\Input\MouseState.h" />
+    <ClInclude Include="include\Borders\NineSliceBorder.h" />
+    <ClInclude Include="include\Graphics\NineSlice.h" />
+    <ClInclude Include="include\Borders\PatternedBorder.h" />
+    <ClInclude Include="include\Graphics\Pattern.h" />
+    <ClInclude Include="include\Widgets\Pane.h" />
+    <ClInclude Include="include\Widgets\Window.h" />
+    <ClInclude Include="include\Widgets\TextBox.h" />
+    <ClInclude Include="include\Widgets\TextArea.h" />
+    <ClInclude Include="include\Input\InputManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Input\InputManager.cpp" />
+    <ClCompile Include="src\Widgets\Canvas.cpp" />
+    <ClCompile Include="src\Drawables\Drawable.cpp" />
+    <ClCompile Include="src\Widgets\Grid.cpp" />
+    <ClCompile Include="src\Widgets\Pane.cpp" />
+    <ClCompile Include="src\Graphics\Pattern.cpp" />
+    <ClCompile Include="src\Borders\PatternedBorder.cpp" />
+    <ClCompile Include="src\Graphics\NineSlice.cpp" />
+    <ClCompile Include="src\Borders\NineSliceBorder.cpp" />
+    <ClCompile Include="src\Borders\Border.cpp" />
     <ClCompile Include="src\Events\EventSubscription.cpp" />
-    <ClCompile Include="src\Events\MouseState.cpp" />
-    <ClCompile Include="src\Events\KeyboardState.cpp" />
+    <ClCompile Include="src\Input\MouseState.cpp" />
+    <ClCompile Include="src\Input\KeyboardState.cpp" />
     <ClCompile Include="src\Events\Event.cpp" />
-    <ClCompile Include="src\Widget.cpp" />
+    <ClCompile Include="src\Widgets\Widget.cpp" />
+    <ClCompile Include="src\Widgets\Window.cpp" />
+    <ClCompile Include="src\Widgets\TextBox.cpp" />
+    <ClCompile Include="src\Widgets\TextArea.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
