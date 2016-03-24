@@ -1,3 +1,4 @@
+
 #include "Widgets/Widget.h"
 
 namespace OpenGLGUI
@@ -54,11 +55,24 @@ namespace OpenGLGUI
 
 	void Widget::notify(EventType type, Event& eventData)
 	{
-		if (eventHandlers.count(type) > 0)
+		bool keyEvent = type == EventType::KeyPressed || type == EventType::KeyReleased;
+		if (keyEvent || this->containsPoint(eventData.mouse.x(), eventData.mouse.y()))
 		{
-			for (auto &callback : eventHandlers[type])
+			if (child != nullptr)
 			{
-				callback.second(eventData);
+				child->notify(type, eventData);
+			}
+
+			if (!eventData.consumed() && visible)
+			{
+				eventData.consume();
+				if (enabled && (!keyEvent || focused) && eventHandlers.count(type) > 0)
+				{
+					for (auto &callback : eventHandlers[type])
+					{
+						callback.second(eventData);
+					}
+				}
 			}
 		}
 	}
@@ -162,6 +176,12 @@ namespace OpenGLGUI
 		{
 			child->processUpdate(delta);
 		}
+	}
+
+	bool Widget::containsPoint(int x, int y)
+	{
+		return x >= widgetPositionX && x <= widgetPositionX + widgetWidth &&
+			y >= widgetPositionY && y <= widgetPositionY + widgetHeight;
 	}
 
 	bool operator==(const Widget& lhs, const Widget& rhs)

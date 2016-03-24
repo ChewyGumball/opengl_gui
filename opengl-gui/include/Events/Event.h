@@ -6,13 +6,11 @@
 namespace OpenGLGUI
 {
 	enum class EventType : char {
-		MouseDown,
-		MouseUp,
+		MouseButtonPressed,
+		MouseButtonReleased,
 		MouseMove,
 		MouseOver,
-		MouseClick,
-		KeyDown,
-		KeyUp,
+		KeyReleased,
 		KeyPressed,
 		MouseWheelScroll
 	};
@@ -43,5 +41,6 @@ namespace OpenGLGUI
 
 		void consume();
 		bool consumed();
+		void reset();
 	};
 }

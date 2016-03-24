@@ -15,8 +15,9 @@ namespace OpenGLGUI
 		~KeyboardState();
 
 		void setKeyState(Key key, InputState inputState);
+		void clear();
 		
 		const InputState& operator[](Key key) const;
-		const Key keyWithMostRecentStateChange() const;
+		const Key& keyWithMostRecentStateChange() const;
 	};
 }

@@ -9,4 +9,5 @@ namespace OpenGLGUI
 
 	void Event::consume() { propagate = false; }
 	bool Event::consumed() { return !propagate; }
+	void Event::reset() { propagate = true; }
 }

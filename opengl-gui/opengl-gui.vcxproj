@@ -44,8 +44,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>F:\libraries\glew-1.13.0\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
     <ReferencePath>$(ProjectDir);$(ReferencePath)</ReferencePath>
+    <LibraryPath>F:\libraries\glew-1.13.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -99,10 +100,10 @@
     <ClInclude Include="include\Widgets\Window.h" />
     <ClInclude Include="include\Widgets\TextBox.h" />
     <ClInclude Include="include\Widgets\TextArea.h" />
-    <ClInclude Include="include\Input\InputManager.h" />
+    <ClInclude Include="include\Widgets\WidgetGroup.h" />
+    <ClInclude Include="include\Graphics\WidgetDetails.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Input\InputManager.cpp" />
     <ClCompile Include="src\Widgets\Canvas.cpp" />
     <ClCompile Include="src\Drawables\Drawable.cpp" />
     <ClCompile Include="src\Widgets\Grid.cpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="src\Widgets\Window.cpp" />
     <ClCompile Include="src\Widgets\TextBox.cpp" />
     <ClCompile Include="src\Widgets\TextArea.cpp" />
+    <ClCompile Include="src\Widgets\WidgetGroup.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

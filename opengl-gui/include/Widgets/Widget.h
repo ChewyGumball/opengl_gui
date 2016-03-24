@@ -37,6 +37,7 @@ namespace OpenGLGUI
 
 		bool visible;
 		bool enabled;
+		bool focused;
 
 		void removeParentChildRelationship(Widget *parent, Widget *child);
 		void processUpdate(long delta);
@@ -51,7 +52,9 @@ namespace OpenGLGUI
 		void unsubscribe(EventSubscription& subscription);
 		void unsubscribeAll();
 
-		void notify(EventType type, Event& eventData);
+		virtual bool containsPoint(int x, int y);
+
+		virtual void notify(EventType type, Event& eventData);
 
 		/* Widget Relationship Functions */
 		void setChild(Widget *childWidget);
