@@ -91,7 +91,13 @@ namespace OpenGLGUI
 	}
 
 	/*Drawing Functions*/
-	void  WidgetGroup::draw() {}
+	void  WidgetGroup::draw() 
+	{
+		for (Widget& w : registeredWidgets)
+		{
+			w.draw();
+		}
+	}
 
 	void  WidgetGroup::createWidgetDetails()
 	{
@@ -120,7 +126,7 @@ namespace OpenGLGUI
 			1.0, 0.0, 0.0
 		};
 
-		glBufferData(vbo, 16 * sizeof(float), quad, GL_STATIC_DRAW);
+		glBufferData(vbo, 12 * sizeof(float), quad, GL_STATIC_DRAW);
 
 		//Make 
 	}

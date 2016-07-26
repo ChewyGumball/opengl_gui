@@ -2,11 +2,4 @@
 
 namespace OpenGLGUI
 {
-	Drawable::Drawable()
-	{
-	}
-
-	Drawable::~Drawable()
-	{
-	}
 }

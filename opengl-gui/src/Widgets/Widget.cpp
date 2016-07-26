@@ -1,5 +1,5 @@
-
 #include "Widgets/Widget.h"
+#include "Borders/Border.h"
 
 namespace OpenGLGUI
 {
@@ -22,10 +22,10 @@ namespace OpenGLGUI
 	{
 	}
 
-	Widget::Widget(Widget * parentWidget)
+	Widget::Widget(std::shared_ptr<Widget> parentWidget)
 	{
 		parent = parentWidget;
-		parentWidget->setChild(this);
+		parentWidget->setChild(shared_from_this());
 	}
 
 	Widget::~Widget()
@@ -78,17 +78,17 @@ namespace OpenGLGUI
 	}
 	/* Widget Relationship Functions */
 
-	Widget* Widget::removeChild()
+	std::shared_ptr<Widget> Widget::removeChild()
 	{
-		Widget *childWidget = child;
-		removeParentChildRelationship(this, child);
+		std::shared_ptr<Widget> childWidget = child;
+		removeParentChildRelationship(this, child.get());
 		return child;
 	}
 
-	Widget* Widget::removeParent()
+	std::shared_ptr<Widget> Widget::removeParent()
 	{
-		Widget *parentWidget = parent;
-		removeParentChildRelationship(parent, this);
+		std::shared_ptr<Widget> parentWidget = parent;
+		removeParentChildRelationship(parent.get(), this);
 		return parentWidget;
 	}
 	void Widget::removeParentChildRelationship(Widget *parent, Widget *child)
@@ -104,11 +104,11 @@ namespace OpenGLGUI
 		}
 	}
 
-	Widget* Widget::parentWidget() const { return parent; }
-	Widget* Widget::Widget::childWidget() const { return child; }
+	std::shared_ptr<Widget> Widget::parentWidget() const { return parent; }
+	std::shared_ptr<Widget> Widget::Widget::childWidget() const { return child; }
 
-	void Widget::setParent(Widget *parentWidget) { parent = parentWidget; }
-	void Widget::setChild(Widget *childWidget) { child = childWidget; }
+	void Widget::setParent(std::shared_ptr<Widget> parentWidget) { parent = parentWidget; }
+	void Widget::setChild(std::shared_ptr<Widget> childWidget) { child = childWidget; }
 
 
 	/* Widget Position Functions */
@@ -146,8 +146,11 @@ namespace OpenGLGUI
 
 
 	/* Widget Border Functions */
-	Border* Widget::border() const { return borderDefinition; }
-	Widget& Widget::setBorder(Border *border) { borderDefinition = border; return *this; }
+	std::shared_ptr<Border> Widget::border() const { return borderDefinition; }
+	Widget& Widget::border(std::shared_ptr<Border> border) { borderDefinition = border; return *this; }
+
+	std::shared_ptr<Brush> Widget::background() const { return backgroundDefinition; }
+	Widget& Widget::background(std::shared_ptr<Brush> background) { backgroundDefinition = background; return *this; }
 
 
 	/* Widget Visibility Functions */
@@ -166,8 +169,6 @@ namespace OpenGLGUI
 		}
 		return *this;
 	}
-
-	void Widget::update(long delta) {}
 
 	void Widget::processUpdate(long delta)
 	{

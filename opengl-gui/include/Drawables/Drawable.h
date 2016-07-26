@@ -2,10 +2,8 @@
 
 namespace OpenGLGUI
 {
-	class Drawable
+	struct Drawable
 	{
-	public:
-		Drawable();
-		~Drawable();
+		virtual void draw() = 0;
 	};
 }

@@ -9,6 +9,8 @@ namespace OpenGLGUI
 	public:
 		Pane();
 		virtual ~Pane();
+
+		void draw();
 	};
 }
 

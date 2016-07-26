@@ -2,16 +2,20 @@
 #include <functional>
 #include <unordered_map>
 #include <vector>
+#include <memory>
 
+#include "Drawables/Drawable.h"
 #include "Events/Event.h"
 #include "Events/EventSubscription.h"
+#include "Brushes/Brush.h"
 
 
 namespace OpenGLGUI
 {
 	class Border;
+	class Background;
 
-	class Widget
+	class Widget : public Drawable, private std::enable_shared_from_this<Widget>
 	{
 	private:
 		std::unordered_multimap<EventType, short> reclaimedReceiptNumbers;
@@ -20,8 +24,9 @@ namespace OpenGLGUI
 
 		short nextReceiptNumber(EventType type);
 
-		Widget *parent;
-		Widget *child;
+	protected:
+		std::shared_ptr<Widget> parent;
+		std::shared_ptr<Widget> child;
 
 		int widgetPositionX;
 		int widgetPositionY;
@@ -33,7 +38,9 @@ namespace OpenGLGUI
 		int widgetTopMargin;
 		int widgetBottomMargin;
 
-		Border *borderDefinition;
+		std::shared_ptr<Border> borderDefinition;
+
+		std::shared_ptr<Brush> backgroundDefinition;
 
 		bool visible;
 		bool enabled;
@@ -44,7 +51,7 @@ namespace OpenGLGUI
 
 	public:
 		Widget();
-		Widget(Widget *parentWidget);
+		Widget(std::shared_ptr<Widget> parentWidget);
 		virtual ~Widget();
 
 		/* Event Handling Functions */
@@ -57,13 +64,13 @@ namespace OpenGLGUI
 		virtual void notify(EventType type, Event& eventData);
 
 		/* Widget Relationship Functions */
-		void setChild(Widget *childWidget);
-		Widget* removeChild();
-		Widget* childWidget() const;
+		void setChild(std::shared_ptr<Widget> childWidget);
+		std::shared_ptr<Widget> removeChild();
+		std::shared_ptr<Widget> childWidget() const;
 
-		void setParent(Widget *parentWidget);
-		Widget* removeParent();
-		Widget* parentWidget() const;
+		void setParent(std::shared_ptr<Widget> parentWidget);
+		std::shared_ptr<Widget> removeParent();
+		std::shared_ptr<Widget> parentWidget() const;
 
 
 		/* Widget Position Functions */
@@ -95,8 +102,12 @@ namespace OpenGLGUI
 
 
 		/* Widget Border Functions */
-		Border* border() const;
-		Widget& setBorder(Border *border);
+		std::shared_ptr<Border> border() const;
+		Widget& border(std::shared_ptr<Border> border);
+
+		/* Widget Background Functions */
+		std::shared_ptr<Brush> background() const;
+		Widget& background(std::shared_ptr<Brush> background);
 
 
 		/* Widget Visibility Functions */
@@ -108,7 +119,8 @@ namespace OpenGLGUI
 		bool isEnabled() const;
 		Widget& setEnabled(bool enabled, bool recursive = true);
 
-		virtual void update(long delta);
+		virtual void update(long delta) {};
+		virtual void draw() = 0;
 	};
 
 	bool operator==(const Widget& lhs, const Widget& rhs);
