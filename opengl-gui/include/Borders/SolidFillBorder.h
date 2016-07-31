@@ -5,14 +5,10 @@ namespace OpenGLGUI
 	class SolidFillBorder : public Border
 	{
 	private:
-		int borderSize;
 	public:
-		SolidFillBorder(int pixels = 1) : borderSize(pixels) {};
+		SolidFillBorder(std::shared_ptr<SolidFillBrush> brush, int pixels) : Border(brush, pixels) {}
 		~SolidFillBorder();
 
-		void size(int pixels) { borderSize = pixels; }
-		int size() { return borderSize; }
-
-		void draw(int height, int width);
+		std::shared_ptr<Util::Mesh> createBorderMesh(std::vector<std::pair<float, float>> &corners);
 	};
 }

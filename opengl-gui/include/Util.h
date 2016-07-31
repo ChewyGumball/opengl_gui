@@ -34,16 +34,20 @@ namespace OpenGLGUI {
 
 		class Mesh {
 		private:
-			int vertexCount;
+			int elementCount;
+			bool indexed = false;
 		public:
 			Mesh(const std::vector<float> &vertices);
+			Mesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices);
 			~Mesh();
 
 			void bind();
+			void unbind();
 			void draw();
 		private:
 			GLuint vao = 0;
 			GLuint vbo = 0;
+			GLuint ebo = 0;
 		};
 	}
 }

@@ -7,7 +7,7 @@ namespace OpenGLGUI
 {
 	class Border
 	{
-	private:
+	protected:
 		std::shared_ptr<Brush> borderBrush;
 		int borderThickness;
 		int borderCornerRadius;
@@ -25,5 +25,7 @@ namespace OpenGLGUI
 
 		Brush& brush() { return *borderBrush; }
 		void brush(std::shared_ptr<Brush> brush) { borderBrush = brush; };
+
+		virtual std::shared_ptr<Util::Mesh> createBorderMesh(std::vector<std::pair<float, float>> &corners) = 0;
 	};
 }

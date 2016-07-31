@@ -147,7 +147,7 @@ namespace OpenGLGUI
 
 	/* Widget Border Functions */
 	std::shared_ptr<Border> Widget::border() const { return borderDefinition; }
-	Widget& Widget::border(std::shared_ptr<Border> border) { borderDefinition = border; return *this; }
+	Widget& Widget::border(std::shared_ptr<Border> border) { borderDefinition = border; borderMesh = borderDefinition->createBorderMesh(corners());  return *this; }
 
 	std::shared_ptr<Brush> Widget::background() const { return backgroundDefinition; }
 	Widget& Widget::background(std::shared_ptr<Brush> background) { backgroundDefinition = background; return *this; }

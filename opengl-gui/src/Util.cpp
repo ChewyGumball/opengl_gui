@@ -89,8 +89,8 @@ void OpenGLGUI::Util::ShaderProgram::setUniform4f(const std::string &uniformName
 
 OpenGLGUI::Util::Mesh::Mesh(const std::vector<float> &vertices)
 {
-	vertexCount = vertices.size();
-	glGenBuffers(1, &vao);
+	elementCount = vertices.size()  / 3;
+	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -98,17 +98,55 @@ OpenGLGUI::Util::Mesh::Mesh(const std::vector<float> &vertices)
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+}
+
+OpenGLGUI::Util::Mesh::Mesh(const std::vector<float>& vertices, const std::vector<unsigned int>& indices)
+{
+	indexed = true;
+	elementCount = indices.size();
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
+
+	glBindVertexArray(vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
 }
 
 OpenGLGUI::Util::Mesh::~Mesh() {}
 
 void OpenGLGUI::Util::Mesh::bind()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindVertexArray(vao);
+}
+
+void OpenGLGUI::Util::Mesh::unbind()
+{
+	glBindVertexArray(0);
 }
 
 void OpenGLGUI::Util::Mesh::draw()
 {
 	bind();
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, vertexCount);
+	if (indexed)
+	{
+		glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, 0);
+	}
+	else
+	{
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, elementCount);
+	}
+	unbind();
 }

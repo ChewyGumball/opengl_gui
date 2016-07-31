@@ -7,13 +7,13 @@
 #include "Drawables/Drawable.h"
 #include "Events/Event.h"
 #include "Events/EventSubscription.h"
-#include "Brushes/Brush.h"
+#include "Util.h"
 
 
 namespace OpenGLGUI
 {
 	class Border;
-	class Background;
+	class Brush;
 
 	class Widget : public Drawable, private std::enable_shared_from_this<Widget>
 	{
@@ -23,6 +23,7 @@ namespace OpenGLGUI
 		std::unordered_map<EventType, std::unordered_map<EventSubscription, std::function<void(Event&)>>> eventHandlers;
 
 		short nextReceiptNumber(EventType type);
+
 
 	protected:
 		std::shared_ptr<Widget> parent;
@@ -48,6 +49,9 @@ namespace OpenGLGUI
 
 		void removeParentChildRelationship(Widget *parent, Widget *child);
 		void processUpdate(long delta);
+
+		std::shared_ptr<OpenGLGUI::Util::Mesh> borderMesh;
+		virtual std::vector<std::pair<float, float>>& corners() = 0;
 
 	public:
 		Widget();
