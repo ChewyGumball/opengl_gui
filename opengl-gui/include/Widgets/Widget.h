@@ -16,7 +16,7 @@ namespace OpenGLGUI
 	class Border;
 	class Brush;
 
-	class Widget : public Drawable, private std::enable_shared_from_this<Widget>
+	class Widget : private std::enable_shared_from_this<Widget>
 	{
 	private:
 		std::unordered_set<std::shared_ptr<EventSubscription>> subscriptionsToErase;
@@ -49,7 +49,7 @@ namespace OpenGLGUI
 		bool enabled;
 		bool focused;
 
-		void removeParentChildRelationship(Widget *parent, Widget *child);
+		void removeParentChildRelationship(std::shared_ptr<Widget> parent, std::shared_ptr<Widget> child);
 		void processUpdate(long delta);
 
 		std::shared_ptr<OpenGLGUI::Util::Mesh> borderMesh;
@@ -57,6 +57,7 @@ namespace OpenGLGUI
 
 	public:
 		Widget();
+		Widget(int offsetX, int offsetY, int width, int height);
 		Widget(std::shared_ptr<Widget> parentWidget);
 		virtual ~Widget();
 
@@ -82,6 +83,8 @@ namespace OpenGLGUI
 		/* Widget Position Functions */
 		int X() const;
 		int Y() const;
+		int screenX() const;
+		int screenY() const;
 		Widget& setX(int x);
 		Widget& setY(int y);
 		Widget& setPosition(int x, int y);
@@ -126,7 +129,7 @@ namespace OpenGLGUI
 		Widget& setEnabled(bool enabled, bool recursive = true);
 
 		virtual void update(long delta) {};
-		virtual void draw() = 0;
+		virtual void draw(int originX, int originY) = 0;
 	};
 
 	bool operator==(const Widget& lhs, const Widget& rhs);

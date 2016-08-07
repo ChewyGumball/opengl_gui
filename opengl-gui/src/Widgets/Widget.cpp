@@ -31,11 +31,13 @@ namespace OpenGLGUI
 		subscriptionsToErase.clear();
 	}
 
-	Widget::Widget()
-	{
-	}
+	Widget::Widget() : Widget(0,0,0,0)
+	{ }
 
-	Widget::Widget(std::shared_ptr<Widget> parentWidget)
+	Widget::Widget(int offsetX, int offsetY, int width, int height) : widgetPositionX(offsetX), widgetPositionY(offsetY), widgetWidth(width), widgetHeight(height) 
+	{ }
+
+	Widget::Widget(std::shared_ptr<Widget> parentWidget) : widgetPositionX(0), widgetPositionY(0), widgetWidth(parentWidget->width()), widgetHeight(parentWidget->height())
 	{
 		parent = parentWidget;
 		parentWidget->setChild(shared_from_this());
@@ -78,7 +80,6 @@ namespace OpenGLGUI
 
 		if (!eventData.consumed() && visible)
 		{
-			eventData.consume();
 			if (enabled && (!keyEvent || focused) && eventHandlers.count(type) > 0)
 			{
 				for(auto &callback : eventHandlers[type])
@@ -93,17 +94,17 @@ namespace OpenGLGUI
 	std::shared_ptr<Widget> Widget::removeChild()
 	{
 		std::shared_ptr<Widget> childWidget = child;
-		removeParentChildRelationship(this, child.get());
+		removeParentChildRelationship(shared_from_this(), child);
 		return child;
 	}
 
 	std::shared_ptr<Widget> Widget::removeParent()
 	{
 		std::shared_ptr<Widget> parentWidget = parent;
-		removeParentChildRelationship(parent.get(), this);
+		removeParentChildRelationship(parent, shared_from_this());
 		return parentWidget;
 	}
-	void Widget::removeParentChildRelationship(Widget *parent, Widget *child)
+	void Widget::removeParentChildRelationship(std::shared_ptr<Widget> parent, std::shared_ptr<Widget> child)
 	{
 		if (parent != nullptr)
 		{
@@ -119,13 +120,25 @@ namespace OpenGLGUI
 	std::shared_ptr<Widget> Widget::parentWidget() const { return parent; }
 	std::shared_ptr<Widget> Widget::Widget::childWidget() const { return child; }
 
-	void Widget::setParent(std::shared_ptr<Widget> parentWidget) { parent = parentWidget; }
-	void Widget::setChild(std::shared_ptr<Widget> childWidget) { child = childWidget; }
+	void Widget::setParent(std::shared_ptr<Widget> parentWidget) 
+	{ 
+		removeParentChildRelationship(parent, shared_from_this());
+		parent = parentWidget; 
+		parent->child = shared_from_this();
+	}
+	void Widget::setChild(std::shared_ptr<Widget> childWidget) 
+	{
+		removeParentChildRelationship(shared_from_this(), child);
+		child = childWidget; 
+		child->parent = shared_from_this();
+	}
 
 
 	/* Widget Position Functions */
 	int Widget::X() const { return widgetPositionX; }
 	int Widget::Y() const { return widgetPositionY; }
+	int Widget::screenX() const { return parent != nullptr ? parent->screenX() + widgetPositionX : widgetPositionX;	}
+	int Widget::screenY() const	{ return parent != nullptr ? parent->screenY() + widgetPositionY : widgetPositionY;	}
 	Widget& Widget::setX(int x) { widgetPositionX = x; return *this; }
 	Widget& Widget::setY(int y) { widgetPositionY = y; return *this; }
 	Widget& Widget::setPosition(int x, int y) { setX(x); setY(y); return *this; }
@@ -193,8 +206,10 @@ namespace OpenGLGUI
 
 	bool Widget::containsPoint(int x, int y)
 	{
-		return x >= widgetPositionX && x <= widgetPositionX + widgetWidth &&
-			y >= widgetPositionY && y <= widgetPositionY + widgetHeight;
+		int offsetX = screenX();
+		int offsetY = screenY();
+		return x >= offsetX && x <= offsetX + widgetWidth &&
+			y >= offsetY && y <= offsetY + widgetHeight;
 	}
 
 	bool operator==(const Widget& lhs, const Widget& rhs)

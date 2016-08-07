@@ -4,6 +4,6 @@ namespace OpenGLGUI
 {
 	struct Drawable
 	{
-		virtual void draw() = 0;
+		virtual void draw(int originX, int originY) = 0;
 	};
 }

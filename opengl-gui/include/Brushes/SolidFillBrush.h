@@ -4,11 +4,11 @@ namespace OpenGLGUI {
 	class SolidFillBrush : public Brush
 	{
 	private:
-		float r, g, b;
+		float r, g, b, a;
 	public:
 		SolidFillBrush();
 		SolidFillBrush(const SolidFillBrush &right);
-		SolidFillBrush(float red, float green, float blue);
+		SolidFillBrush(float red, float green, float blue, float alpha = 1.0f);
 		~SolidFillBrush();
 
 		void activate();

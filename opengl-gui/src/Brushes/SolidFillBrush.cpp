@@ -36,6 +36,8 @@ void main()
 	OpenGLGUI::Util::ShaderProgram *solidFillProgram;
 
 	void initializeGLData() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		colourFragmentShader = new OpenGLGUI::Util::Shader(colourFragmentShaderSource, GL_FRAGMENT_SHADER);
 		colourVertexShader = new OpenGLGUI::Util::Shader(colourVertexShaderSource, GL_VERTEX_SHADER);
 		solidFillProgram = new OpenGLGUI::Util::ShaderProgram({ colourFragmentShader, colourVertexShader });
@@ -54,11 +56,11 @@ namespace OpenGLGUI {
 	SolidFillBrush::SolidFillBrush() : SolidFillBrush(0,0,0)
 	{
 	}
-	SolidFillBrush::SolidFillBrush(const SolidFillBrush & right) : SolidFillBrush(right.r, right.g, right.b)
+	SolidFillBrush::SolidFillBrush(const SolidFillBrush & right) : SolidFillBrush(right.r, right.g, right.b, right.a)
 	{
 	}
 
-	SolidFillBrush::SolidFillBrush(float red, float green, float blue) : Brush(solidFillProgram), r(red), g(green), b(blue)
+	SolidFillBrush::SolidFillBrush(float red, float green, float blue, float alpha) : Brush(solidFillProgram), r(red), g(green), b(blue), a(alpha)
 	{
 	}
 
@@ -69,7 +71,7 @@ namespace OpenGLGUI {
 	void SolidFillBrush::activate()
 	{
 		shader->enable();
-		setUniform4f("colour", r, g, b, 255.0f);
+		setUniform4f("colour", r, g, b, a);
 	}
 
 	void SolidFillBrush::deactivate()

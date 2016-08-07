@@ -89,7 +89,7 @@ namespace OpenGLGUI
 	{
 		for (Widget& w : registeredWidgets)
 		{
-			w.draw();
+			w.draw(0,0);
 		}
 	}
 
@@ -106,7 +106,11 @@ namespace OpenGLGUI
 	void WidgetGroup::createWidgetDetails(Widget& widget, std::vector<WidgetDetails> detailList)
 	{
 		detailList.push_back({ widget.X(), widget.Y(), widget.width(), widget.height() });
-		createWidgetDetails(*(widget.childWidget()), detailList);
+		auto child = widget.childWidget();
+		if (child != nullptr)
+		{
+			createWidgetDetails(*child, detailList);
+		}
 
 		//Make quad buffer
 		GLuint vbo = 0;
