@@ -4,11 +4,10 @@
 #include <math.h>
 
 namespace {
-	void pushVertex(std::vector<float> &vertices, float x, float y, float z = 0.0f)
+	void pushVertex(std::vector<float> &vertices, float x, float y)
 	{
 		vertices.push_back(x);
 		vertices.push_back(y);
-		vertices.push_back(z);
 	}
 
 	std::pair<float, float> normalizeSlope(std::pair<float, float> a, std::pair<float, float> b)
@@ -30,8 +29,6 @@ namespace OpenGLGUI
 
 	std::shared_ptr<Util::Mesh> SolidFillBorder::createBorderMesh(std::vector<std::pair<float, float>>& corners)
 	{
-		int newVertexCount = corners.size() * 3;
-
 		std::vector<float> meshVertices;
 		std::pair<float, float> previousVertex = corners.back();
 		std::pair<float, float> currentVertex = corners[0];
@@ -66,11 +63,11 @@ namespace OpenGLGUI
 
 			meshIndices.push_back(startIndex);
 			meshIndices.push_back(startIndex + 3);
-			meshIndices.push_back((startIndex + 4) % (vertexCount / 3));
+			meshIndices.push_back((startIndex + 4) % (vertexCount / 2));
 
 			meshIndices.push_back(startIndex + 3);
-			meshIndices.push_back((startIndex + 5) % (vertexCount / 3));
-			meshIndices.push_back((startIndex + 4) % (vertexCount / 3));
+			meshIndices.push_back((startIndex + 5) % (vertexCount / 2));
+			meshIndices.push_back((startIndex + 4) % (vertexCount / 2));
 		}
 
 		return std::make_shared<Util::Mesh>(meshVertices, meshIndices);

@@ -10,11 +10,11 @@ namespace OpenGLGUI
 	private:
 		const unsigned short receipt;
 	public:
-		const Widget &source;
+		const Widget *source;
 		const EventType eventType;
 
-		EventSubscription(Widget &sourceWidget, EventType type, unsigned short receiptNumber);
-
+		EventSubscription(Widget *sourceWidget, EventType type, unsigned short receiptNumber);
+		
 		bool operator==(const EventSubscription &other) const;
 
 		friend std::hash<EventSubscription>;

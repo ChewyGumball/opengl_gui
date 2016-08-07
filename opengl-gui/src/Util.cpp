@@ -76,6 +76,28 @@ OpenGLGUI::Util::ShaderProgram::~ShaderProgram() {
 	}
 }
 
+void OpenGLGUI::Util::ShaderProgram::setUniform2f(const std::string &uniformName, float a, float b)
+{
+	GLint location = glGetUniformLocation(shaderProgramID, uniformName.c_str());
+	if (location == -1)
+	{
+		std::cout << "Could not find uniform '" << uniformName << "' in shader!" << std::endl;
+		return;
+	}
+	glUniform2f(location, a, b);
+}
+
+void OpenGLGUI::Util::ShaderProgram::setUniform3f(const std::string &uniformName, float a, float b, float c)
+{
+	GLint location = glGetUniformLocation(shaderProgramID, uniformName.c_str());
+	if (location == -1)
+	{
+		std::cout << "Could not find uniform '" << uniformName << "' in shader!" << std::endl;
+		return;
+	}
+	glUniform3f(location, a, b, c);
+}
+
 void OpenGLGUI::Util::ShaderProgram::setUniform4f(const std::string &uniformName, float a, float b, float c, float d)
 {
 	GLint location = glGetUniformLocation(shaderProgramID, uniformName.c_str());
@@ -89,14 +111,16 @@ void OpenGLGUI::Util::ShaderProgram::setUniform4f(const std::string &uniformName
 
 OpenGLGUI::Util::Mesh::Mesh(const std::vector<float> &vertices)
 {
-	elementCount = vertices.size()  / 3;
+	elementCount = vertices.size()  / 2;
+
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
 	glBindVertexArray(0);
@@ -119,7 +143,7 @@ OpenGLGUI::Util::Mesh::Mesh(const std::vector<float>& vertices, const std::vecto
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
 	glBindVertexArray(0);

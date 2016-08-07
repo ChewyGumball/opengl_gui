@@ -10,6 +10,8 @@ namespace OpenGLGUI
 	private:
 		int xPosition;
 		int yPosition;
+		int deltaPositionX;
+		int deltaPositionY;
 		std::unordered_map<MouseButton, InputState> state;
 		MouseButton mostRecentlyChangedButton;
 		int wheelTicks;
@@ -19,6 +21,8 @@ namespace OpenGLGUI
 
 		int x() const;
 		int y() const;
+		int deltaX() const;
+		int deltaY() const;
 		int wheel() const;
 
 		void setPosition(int x, int y);

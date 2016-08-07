@@ -17,14 +17,16 @@ void main()
 
 	std::string colourVertexShaderSource = R"(
 #version 330 core
-layout (location = 0) in vec3 position;
+layout (location = 0) in vec2 position;
 
-uniform vec4 offset;
-uniform vec4 dimension;
+uniform vec2 offset;
+uniform vec2 dimension;
+uniform vec2 screenSize;
 
 void main()
 {
-    gl_Position = vec4((position * dimension.xyz) + offset.xyz, 1.0f) / vec4(640, 480, 1, 1);
+	vec2 halfScreenSize = screenSize / 2;
+    gl_Position = vec4((position * dimension + offset - halfScreenSize) / halfScreenSize, 0, 1);
 } 
 	)";
 

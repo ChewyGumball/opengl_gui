@@ -27,6 +27,8 @@ namespace OpenGLGUI {
 			void enable() { glUseProgram(shaderProgramID); }
 			void disable() { glUseProgram(0); }
 
+			void setUniform2f(const std::string &uniformName, float a, float b);
+			void setUniform3f(const std::string &uniformName, float a, float b, float c);
 			void setUniform4f(const std::string &uniformName, float a, float b, float c, float d);
 		private:
 			GLuint shaderProgramID = 0;

@@ -21,6 +21,14 @@ namespace OpenGLGUI
 	{
 		return yPosition;
 	}
+	int MouseState::deltaX() const
+	{
+		return deltaPositionX;
+	}
+	int MouseState::deltaY() const
+	{
+		return deltaPositionY;
+	}
 	int MouseState::wheel() const
 	{
 		return wheelTicks;
@@ -28,6 +36,8 @@ namespace OpenGLGUI
 
 	void MouseState::setPosition(int x, int y)
 	{
+		deltaPositionX = x - xPosition;
+		deltaPositionY = y - yPosition;
 		xPosition = x;
 		yPosition = y;
 	}
@@ -35,6 +45,8 @@ namespace OpenGLGUI
 	{
 		xPosition += deltaX;
 		yPosition += deltaY;
+		deltaPositionX = deltaX;
+		deltaPositionY = deltaY;
 	}
 	void MouseState::setWheelTicks(int ticks)
 	{

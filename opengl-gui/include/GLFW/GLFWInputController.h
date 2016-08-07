@@ -3,7 +3,7 @@
 
 namespace OpenGLGUI {
 	namespace GLFWInputController {
-		void initializeCallbacks();
+		void initializeCallbacks(GLFWwindow *window);
 		void applyInputQueue(WidgetGroup &w);
 		void clearInputQueue();
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <memory>
 
@@ -18,12 +19,13 @@ namespace OpenGLGUI
 	class Widget : public Drawable, private std::enable_shared_from_this<Widget>
 	{
 	private:
+		std::unordered_set<std::shared_ptr<EventSubscription>> subscriptionsToErase;
 		std::unordered_multimap<EventType, short> reclaimedReceiptNumbers;
 		std::unordered_map<EventType, short> highestReceiptNumber;
-		std::unordered_map<EventType, std::unordered_map<EventSubscription, std::function<void(Event&)>>> eventHandlers;
+		std::unordered_map<EventType, std::unordered_map<std::shared_ptr<EventSubscription>, std::function<void(std::shared_ptr<EventSubscription>,Event&)>>> eventHandlers;
 
 		short nextReceiptNumber(EventType type);
-
+		void eraseOldSubscriptions();
 
 	protected:
 		std::shared_ptr<Widget> parent;
@@ -59,8 +61,8 @@ namespace OpenGLGUI
 		virtual ~Widget();
 
 		/* Event Handling Functions */
-		EventSubscription subscribe(EventType type, std::function<void(Event&)> callback);
-		void unsubscribe(EventSubscription& subscription);
+		std::shared_ptr<EventSubscription> subscribe(EventType type, std::function<void(std::shared_ptr<EventSubscription>, Event&)> callback);
+		void unsubscribe(std::shared_ptr<EventSubscription> subscription);
 		void unsubscribeAll();
 
 		virtual bool containsPoint(int x, int y);

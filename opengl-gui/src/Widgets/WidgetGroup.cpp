@@ -72,10 +72,7 @@ namespace OpenGLGUI
 		OpenGLGUI::Event event(keyboardState, mouseState);
 		for (auto widget = registeredWidgets.begin(); widget != registeredWidgets.end() && !event.consumed(); widget++)
 		{
-			if (widget->get().containsPoint(mouseState.x(), mouseState.y()))
-			{
-				widget->get().notify(eventType, event);
-			}
+			widget->get().notify(eventType, event);
 		}
 	}
 	void WidgetGroup::notifyWidgetsOfKeyboardEvent(EventType eventType)
@@ -83,10 +80,7 @@ namespace OpenGLGUI
 		OpenGLGUI::Event event(keyboardState, mouseState);
 		for (auto widget = registeredWidgets.begin(); widget != registeredWidgets.end() && !event.consumed(); widget++)
 		{
-			if (widget->get().containsPoint(mouseState.x(), mouseState.y()))
-			{
-				widget->get().notify(eventType, event);
-			}
+			widget->get().notify(eventType, event);
 		}
 	}
 

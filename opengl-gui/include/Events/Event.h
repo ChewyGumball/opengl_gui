@@ -5,7 +5,7 @@
 
 namespace OpenGLGUI
 {
-	enum class EventType : char {
+	enum class EventType {
 		MouseButtonPressed,
 		MouseButtonReleased,
 		MouseMove,
@@ -13,6 +13,20 @@ namespace OpenGLGUI
 		KeyReleased,
 		KeyPressed,
 		MouseWheelScroll
+	};
+
+	class Event {
+		bool propagate;
+	public:
+
+		const KeyboardState &keyboard;
+		const MouseState &mouse;
+
+		Event(KeyboardState &kState, MouseState &mState);
+
+		void consume();
+		bool consumed();
+		void reset();
 	};
 }
 
@@ -28,19 +42,3 @@ namespace std {
 	};
 }
 
-namespace OpenGLGUI
-{
-	class Event {
-		bool propagate;
-	public:
-
-		const KeyboardState &keyboard;
-		const MouseState &mouse;
-
-		Event(KeyboardState &kState, MouseState &mState);
-
-		void consume();
-		bool consumed();
-		void reset();
-	};
-}

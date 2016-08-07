@@ -16,6 +16,8 @@ namespace OpenGLGUI {
 		virtual void activate();
 		virtual void deactivate();
 
+		void setUniform2f(const std::string& uniformName, float a = 0.0f, float b = 0.0f);
+		void setUniform3f(const std::string& uniformName, float a = 0.0f, float b = 0.0f, float c = 0.0f);
 		void setUniform4f(const std::string& uniformName, float a = 0.0f, float b = 0.0f, float c = 0.0f, float d = 0.0f);
 	};
 }

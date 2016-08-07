@@ -8,6 +8,10 @@ namespace OpenGLGUI
 		auto reclaimed = reclaimedReceiptNumbers.find(type);
 		if (reclaimed == reclaimedReceiptNumbers.end())
 		{
+			if (highestReceiptNumber.count(type) == 0)
+			{
+				highestReceiptNumber[type] = 0;
+			}
 			return highestReceiptNumber[type]++;
 		}
 		else
@@ -16,6 +20,15 @@ namespace OpenGLGUI
 			reclaimedReceiptNumbers.erase(reclaimed);
 			return receipt;
 		}
+	}
+
+	void Widget::eraseOldSubscriptions()
+	{
+		for (auto &subscription : subscriptionsToErase)
+		{
+			eventHandlers[subscription->eventType].erase(subscription);
+		}
+		subscriptionsToErase.clear();
 	}
 
 	Widget::Widget()
@@ -32,19 +45,19 @@ namespace OpenGLGUI
 	{
 	}
 
-	EventSubscription Widget::subscribe(EventType type, std::function<void(Event&)> callback)
+	std::shared_ptr<EventSubscription> Widget::subscribe(EventType type, std::function<void(std::shared_ptr<EventSubscription>, Event&)> callback)
 	{
-		EventSubscription subscription(*this, type, nextReceiptNumber(type));
+		std::shared_ptr<EventSubscription> subscription = std::make_shared<EventSubscription>(this, type, nextReceiptNumber(type));
 		eventHandlers[type][subscription] = callback;
 
 		return subscription;
 	}
 
-	void Widget::unsubscribe(EventSubscription& subscription)
+	void Widget::unsubscribe(std::shared_ptr<OpenGLGUI::EventSubscription> subscription)
 	{
-		if (&subscription.source == this)
+		if (subscription->source == this)
 		{
-			eventHandlers[subscription.eventType].erase(subscription);
+			subscriptionsToErase.insert(subscription);
 		}
 	}
 
@@ -55,23 +68,22 @@ namespace OpenGLGUI
 
 	void Widget::notify(EventType type, Event& eventData)
 	{
-		bool keyEvent = type == EventType::KeyPressed || type == EventType::KeyReleased;
-		if (keyEvent || this->containsPoint(eventData.mouse.x(), eventData.mouse.y()))
-		{
-			if (child != nullptr)
-			{
-				child->notify(type, eventData);
-			}
+		eraseOldSubscriptions();
 
-			if (!eventData.consumed() && visible)
+		bool keyEvent = type == EventType::KeyPressed || type == EventType::KeyReleased;
+		if (child != nullptr)
+		{
+			child->notify(type, eventData);
+		}
+
+		if (!eventData.consumed() && visible)
+		{
+			eventData.consume();
+			if (enabled && (!keyEvent || focused) && eventHandlers.count(type) > 0)
 			{
-				eventData.consume();
-				if (enabled && (!keyEvent || focused) && eventHandlers.count(type) > 0)
+				for(auto &callback : eventHandlers[type])
 				{
-					for (auto &callback : eventHandlers[type])
-					{
-						callback.second(eventData);
-					}
+					callback.second(callback.first, eventData);
 				}
 			}
 		}
