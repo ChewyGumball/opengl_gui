@@ -17,13 +17,13 @@ namespace OpenGLGUI
 	{
 	}
 
-	void WidgetGroup::registerWidget(Widget& pane)
+	void WidgetGroup::registerWidget(std::shared_ptr<Widget> widget)
 	{
-		registeredWidgets.push_front(pane);
+		registeredWidgets.push_front(widget);
 	}
-	void WidgetGroup::deregisterWidget(Widget& pane)
+	void WidgetGroup::deregisterWidget(std::shared_ptr<Widget> widget)
 	{
-		registeredWidgets.erase(std::find(registeredWidgets.begin(), registeredWidgets.end(), pane));
+		registeredWidgets.erase(std::find(registeredWidgets.begin(), registeredWidgets.end(), widget));
 	}
 
 	/*Input Functions*/
@@ -72,7 +72,7 @@ namespace OpenGLGUI
 		OpenGLGUI::Event event(keyboardState, mouseState);
 		for (auto widget = registeredWidgets.begin(); widget != registeredWidgets.end() && !event.consumed(); widget++)
 		{
-			widget->get().notify(eventType, event);
+			(*widget)->notify(eventType, event);
 		}
 	}
 	void WidgetGroup::notifyWidgetsOfKeyboardEvent(EventType eventType)
@@ -80,53 +80,16 @@ namespace OpenGLGUI
 		OpenGLGUI::Event event(keyboardState, mouseState);
 		for (auto widget = registeredWidgets.begin(); widget != registeredWidgets.end() && !event.consumed(); widget++)
 		{
-			widget->get().notify(eventType, event);
+			(*widget)->notify(eventType, event);
 		}
 	}
 
 	/*Drawing Functions*/
-	void  WidgetGroup::draw() 
+	void  WidgetGroup::draw()
 	{
-		for (Widget& w : registeredWidgets)
+		for (auto w : registeredWidgets)
 		{
-			w.draw(0,0);
+			w->draw(0, 0);
 		}
 	}
-
-	void  WidgetGroup::createWidgetDetails()
-	{
-		std::vector<WidgetDetails> details;
-		for (Widget& w : registeredWidgets)
-		{
-			createWidgetDetails(w, details);
-		}
-
-	}
-
-	void WidgetGroup::createWidgetDetails(Widget& widget, std::vector<WidgetDetails> detailList)
-	{
-		detailList.push_back({ widget.X(), widget.Y(), widget.width(), widget.height() });
-		auto child = widget.childWidget();
-		if (child != nullptr)
-		{
-			createWidgetDetails(*child, detailList);
-		}
-
-		//Make quad buffer
-		GLuint vbo = 0;
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-		float quad[] = {
-			0.0, 0.0, 0.0,
-			0.0, 1.0, 0.0,
-			1.0, 1.0, 0.0,
-			1.0, 0.0, 0.0
-		};
-
-		glBufferData(vbo, 12 * sizeof(float), quad, GL_STATIC_DRAW);
-
-		//Make 
-	}
-
 }

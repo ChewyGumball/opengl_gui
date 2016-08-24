@@ -111,12 +111,12 @@ namespace OpenGLGUI
 
 
 		/* Widget Border Functions */
-		std::shared_ptr<Border> border() const;
-		Widget& border(std::shared_ptr<Border> border);
+		virtual std::shared_ptr<Border> border() const;
+		virtual Widget& border(std::shared_ptr<Border> border);
 
 		/* Widget Background Functions */
-		std::shared_ptr<Brush> background() const;
-		Widget& background(std::shared_ptr<Brush> background);
+		virtual std::shared_ptr<Brush> background() const;
+		virtual Widget& background(std::shared_ptr<Brush> background);
 
 
 		/* Widget Visibility Functions */

@@ -6,6 +6,10 @@ namespace OpenGLGUI
 	{
 	}
 
+	TextArea::TextArea(std::string & text)
+	{
+	}
+
 	TextArea::~TextArea()
 	{
 	}

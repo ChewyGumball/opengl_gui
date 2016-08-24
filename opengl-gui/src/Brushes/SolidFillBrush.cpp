@@ -33,7 +33,7 @@ void main()
 	bool initialized = false;
 	OpenGLGUI::Util::Shader *colourFragmentShader;
 	OpenGLGUI::Util::Shader *colourVertexShader;
-	OpenGLGUI::Util::ShaderProgram *solidFillProgram;
+	OpenGLGUI::Util::ShaderProgram *solidFillProgram = nullptr;
 
 	void initializeGLData() {
 		glEnable(GL_BLEND);
@@ -70,6 +70,14 @@ namespace OpenGLGUI {
 
 	void SolidFillBrush::activate()
 	{
+		if (!initialized)
+		{
+			initializeGLData();
+		}
+		if (initialized && shader == nullptr)
+		{
+			shader = solidFillProgram;
+		}
 		shader->enable();
 		setUniform4f("colour", r, g, b, a);
 	}
@@ -79,11 +87,13 @@ namespace OpenGLGUI {
 		solidFillProgram->disable();
 	}
 
-	void SolidFillBrush::initialize()
-	{
-		if (!initialized)
-		{
-			initializeGLData();
-		}
+
+	namespace Brushes {
+		std::shared_ptr<SolidFillBrush> Blue = std::make_shared<SolidFillBrush>(0, 0, 1);
+		std::shared_ptr<SolidFillBrush> Red = std::make_shared<SolidFillBrush>(1, 0, 0);
+		std::shared_ptr<SolidFillBrush> Green = std::make_shared<SolidFillBrush>(0, 1, 0);
+		std::shared_ptr<SolidFillBrush> LightBlue = std::make_shared<SolidFillBrush>(0, 0.5, 0.8);
+		std::shared_ptr<SolidFillBrush> LightGrey = std::make_shared<SolidFillBrush>(0.7, 0.7, 0.7);
+		std::shared_ptr<SolidFillBrush> DarkGrey = std::make_shared<SolidFillBrush>(0.3, 0.3, 0.3);
 	}
 }

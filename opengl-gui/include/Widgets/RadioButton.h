@@ -1,14 +1,12 @@
 #pragma once
 #include "Widgets/Widget.h"
-
 namespace OpenGLGUI
 {
-	class TextArea :
+	class RadioButton :
 		public Widget
 	{
 	public:
-		TextArea();
-		TextArea(std::string &text);
-		virtual ~TextArea();
+		RadioButton();
+		virtual ~RadioButton();
 	};
 }
