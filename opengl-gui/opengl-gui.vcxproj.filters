@@ -81,6 +81,9 @@
     <ClCompile Include="src\Brushes\Brush.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Brushes\TextureBrush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Events\Event.h">
@@ -156,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Brushes\Brush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Brushes\TextureBrush.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

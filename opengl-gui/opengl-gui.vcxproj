@@ -174,6 +174,7 @@
     <ClInclude Include="include\Util.h" />
     <ClInclude Include="include\Borders\SolidFillBorder.h" />
     <ClInclude Include="include\Brushes\SolidFillBrush.h" />
+    <ClInclude Include="include\Brushes\TextureBrush.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Brushes\Brush.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="src\Widgets\TextArea.cpp" />
     <ClCompile Include="src\Widgets\WidgetGroup.cpp" />
     <ClCompile Include="src\Util.cpp" />
+    <ClCompile Include="src\Brushes\TextureBrush.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

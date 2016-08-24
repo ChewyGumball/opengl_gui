@@ -174,3 +174,31 @@ void OpenGLGUI::Util::Mesh::draw()
 	}
 	unbind();
 }
+
+OpenGLGUI::Util::Texture::Texture(std::string filename, int width, int height, GLuint inputFormat, GLuint storageFormat)
+{
+	//Read image data
+	const unsigned char *imageData;
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	
+	//Load image data
+	glTexImage2D(GL_TEXTURE_2D, 0, inputFormat, width, height, 0, storageFormat, GL_UNSIGNED_BYTE, imageData);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//delete image data
+}
+
+OpenGLGUI::Util::Texture::~Texture()
+{
+	glDeleteTextures(1, &textureID);
+}
+
+void OpenGLGUI::Util::Texture::bind(GLuint textureUnit)
+{
+	glActiveTexture(textureUnit);	// Activate the texture unit first before binding texture
+	glBindTexture(GL_TEXTURE_2D, textureID);
+}
+

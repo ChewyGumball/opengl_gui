@@ -5,7 +5,6 @@
 
 namespace OpenGLGUI {
 	namespace Util {
-
 		class Shader {
 		public:
 			Shader(const std::string &source, GLuint type);
@@ -50,6 +49,15 @@ namespace OpenGLGUI {
 			GLuint vao = 0;
 			GLuint vbo = 0;
 			GLuint ebo = 0;
+		};
+
+		class Texture {
+		private:
+			GLuint textureID;
+		public:
+			Texture(std::string filename, int width, int height, GLuint inputFormat, GLuint storageFormat);
+			~Texture();
+			void bind(GLuint textureUnit = 0);
 		};
 	}
 }
