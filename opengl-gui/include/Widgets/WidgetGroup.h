@@ -17,22 +17,19 @@ namespace OpenGLGUI
 	class WidgetGroup
 	{
 	private:
-		std::deque<std::reference_wrapper<Widget>> registeredWidgets;
+		std::deque<std::shared_ptr<Widget>> registeredWidgets;
 		KeyboardState keyboardState;
 		MouseState mouseState;
 
 		void notifyWidgetsOfMouseEvent(EventType eventType);
 		void notifyWidgetsOfKeyboardEvent(EventType eventType);
 
-		void createWidgetDetails();
-		void createWidgetDetails(Widget& widget, std::vector<WidgetDetails> detailList);
-
 	public:
 		WidgetGroup();
 		~WidgetGroup();
 
-		void registerWidget(Widget& pane);
-		void deregisterWidget(Widget& pane);
+		void registerWidget(std::shared_ptr<Widget> widget);
+		void deregisterWidget(std::shared_ptr<Widget> widget);
 
 		void setKeyState(Key key, InputState state);
 		void setMouseState(MouseButton button, InputState state);

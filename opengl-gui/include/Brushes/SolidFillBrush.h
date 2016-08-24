@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Brushes/Brush.h"
 namespace OpenGLGUI {
 	class SolidFillBrush : public Brush
@@ -13,8 +14,15 @@ namespace OpenGLGUI {
 
 		void activate();
 		void deactivate();
-
-		static void initialize();
 	};
+
+	namespace Brushes {
+		extern std::shared_ptr<SolidFillBrush> Blue;
+		extern std::shared_ptr<SolidFillBrush> Red;
+		extern std::shared_ptr<SolidFillBrush> Green;
+		extern std::shared_ptr<SolidFillBrush> LightBlue;
+		extern std::shared_ptr<SolidFillBrush> LightGrey;
+		extern std::shared_ptr<SolidFillBrush> DarkGrey;
+	}
 }
 
