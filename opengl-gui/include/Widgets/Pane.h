@@ -1,5 +1,6 @@
 #pragma once
 #include "Widgets/Widget.h"
+#include "Drawables/Rectangle.h"
 
 namespace OpenGLGUI
 {
@@ -7,19 +8,19 @@ namespace OpenGLGUI
 		public Widget
 	{
 	private:
-		std::vector<std::pair<float, float>> cornerList;
 		std::shared_ptr<EventSubscription> dragSubscription;
-		void makeCorners();
-	protected:
-		std::vector<std::pair<float, float>>& corners();
+		Rectangle backgroundRectangle;
 	public:
 		Pane();
 		Pane(int offsetX, int offsetY, int width, int height);
 		Pane(std::shared_ptr<Widget> parent);
 		virtual ~Pane() {};
 
-		void draw(int originX, int originY);
+		void draw(glm::vec2 origin);
 		void setDraggable(bool draggable);
+
+		const std::shared_ptr<Brush> Pane::background() const;
+		Widget& background(std::shared_ptr<Brush> background);
 	};
 }
 

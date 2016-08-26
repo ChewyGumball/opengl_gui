@@ -9,14 +9,12 @@
 #include "Events/Event.h"
 #include "Events/EventSubscription.h"
 #include "Util.h"
+#include "Borders/BorderInstance.h"
 
 
 namespace OpenGLGUI
 {
-	class Border;
-	class Brush;
-
-	class Widget : private std::enable_shared_from_this<Widget>
+	class Widget : public Drawable, private std::enable_shared_from_this<Widget>
 	{
 	private:
 		std::unordered_set<std::shared_ptr<EventSubscription>> subscriptionsToErase;
@@ -31,8 +29,7 @@ namespace OpenGLGUI
 		std::shared_ptr<Widget> parent;
 		std::shared_ptr<Widget> child;
 
-		int widgetPositionX;
-		int widgetPositionY;
+		glm::vec2 widgetPosition;
 
 		int widgetHeight;
 		int widgetWidth;
@@ -40,6 +37,8 @@ namespace OpenGLGUI
 		int widgetRightMargin;
 		int widgetTopMargin;
 		int widgetBottomMargin;
+
+		BorderInstance borderInstance;
 
 		std::shared_ptr<Border> borderDefinition;
 
@@ -52,9 +51,10 @@ namespace OpenGLGUI
 		void removeParentChildRelationship(std::shared_ptr<Widget> parent, std::shared_ptr<Widget> child);
 		void processUpdate(long delta);
 
-		std::shared_ptr<OpenGLGUI::Util::Mesh> borderMesh;
-		virtual std::vector<std::pair<float, float>>& corners() = 0;
-
+		std::vector<glm::vec2> cornerList;
+		virtual std::vector<glm::vec2> makeCorners();
+		virtual std::vector<glm::vec2>& corners();
+		
 	public:
 		Widget();
 		Widget(int offsetX, int offsetY, int width, int height);
@@ -66,7 +66,7 @@ namespace OpenGLGUI
 		void unsubscribe(std::shared_ptr<EventSubscription> subscription);
 		void unsubscribeAll();
 
-		virtual bool containsPoint(int x, int y);
+		virtual bool containsPoint(glm::vec2 point);
 
 		virtual void notify(EventType type, Event& eventData);
 
@@ -81,16 +81,10 @@ namespace OpenGLGUI
 
 
 		/* Widget Position Functions */
-		int X() const;
-		int Y() const;
-		int screenX() const;
-		int screenY() const;
-		Widget& setX(int x);
-		Widget& setY(int y);
-		Widget& setPosition(int x, int y);
-		Widget& setXDelta(int deltaX);
-		Widget& setYDelta(int deltaY);
-		Widget& setPositionDelta(int deltaX, int deltaY);
+		glm::vec2 position() const;
+		glm::vec2 screenPosition() const;
+		Widget& setPosition(glm::vec2 position);
+		Widget& setPositionDelta(glm::vec2 delta);
 
 
 		/* Widget Size Functions */
@@ -115,7 +109,7 @@ namespace OpenGLGUI
 		virtual Widget& border(std::shared_ptr<Border> border);
 
 		/* Widget Background Functions */
-		virtual std::shared_ptr<Brush> background() const;
+		virtual const std::shared_ptr<Brush> background() const;
 		virtual Widget& background(std::shared_ptr<Brush> background);
 
 
@@ -129,7 +123,6 @@ namespace OpenGLGUI
 		Widget& setEnabled(bool enabled, bool recursive = true);
 
 		virtual void update(long delta) {};
-		virtual void draw(int originX, int originY) = 0;
 	};
 
 	bool operator==(const Widget& lhs, const Widget& rhs);

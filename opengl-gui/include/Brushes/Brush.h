@@ -9,15 +9,16 @@ namespace OpenGLGUI {
 	protected:
 		Util::ShaderProgram *shader;
 		Brush(Util::ShaderProgram *shaderProgram) : shader(shaderProgram) {}
+
 	public:
-		Brush() {};
-		virtual ~Brush() {};
+		Brush();
+		virtual ~Brush();
 
 		virtual void activate();
 		virtual void deactivate();
 
-		void setUniform2f(const std::string& uniformName, float a = 0.0f, float b = 0.0f);
-		void setUniform3f(const std::string& uniformName, float a = 0.0f, float b = 0.0f, float c = 0.0f);
-		void setUniform4f(const std::string& uniformName, float a = 0.0f, float b = 0.0f, float c = 0.0f, float d = 0.0f);
+		void setUniform2f(const std::string& uniformName, glm::vec2 data);
+		void setUniform3f(const std::string& uniformName, glm::vec3 data);
+		void setUniform4f(const std::string& uniformName, glm::vec4 data);
 	};
 }

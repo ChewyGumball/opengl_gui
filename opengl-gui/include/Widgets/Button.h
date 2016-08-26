@@ -7,7 +7,7 @@ namespace OpenGLGUI
 	class Button : public Widget
 	{
 	private:
-		std::shared_ptr<Pane> pane;
+		Rectangle backgroundRectangle;
 		std::shared_ptr<Widget> contents;
 	public:
 		Button();
@@ -17,13 +17,9 @@ namespace OpenGLGUI
 		Button(int width, int height, std::string &text);
 		Button(int width, int height, std::shared_ptr<Widget> contents);
 		virtual ~Button();
-
-		/* Widget Border Functions */
-		std::shared_ptr<Border> border() const { return pane->border(); }
-		Widget& border(std::shared_ptr<Border> border) { pane->border(border); }
-
+		
 		/* Widget Background Functions */
-		std::shared_ptr<Brush> background() const { pane->background(); }
-		Widget& background(std::shared_ptr<Brush> background) { pane->background(background); }
+		const std::shared_ptr<Brush> background() const { return backgroundDefinition; }
+		Widget& background(std::shared_ptr<Brush> background) { backgroundRectangle.setBrush(background); return *this; }
 	};
 }

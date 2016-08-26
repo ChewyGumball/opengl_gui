@@ -11,8 +11,14 @@
 
 namespace {
 
-	std::unordered_map<int, OpenGLGUI::Key> glfwKeyMapping;
-	std::unordered_map<int, OpenGLGUI::MouseButton> glfwMouseMapping;
+	std::unordered_map<int, OpenGLGUI::Key> glfwKeyMapping{
+
+	};
+	std::unordered_map<int, OpenGLGUI::MouseButton> glfwMouseMapping {
+		{ 0, OpenGLGUI::MouseButton::Left },
+		{ 1, OpenGLGUI::MouseButton::Right },
+		{ 2, OpenGLGUI::MouseButton::Middle }
+	};
 
 	struct InputEvent {
 		OpenGLGUI::EventType type;

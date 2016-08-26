@@ -34,13 +34,16 @@ namespace OpenGLGUI
 	Widget::Widget() : Widget(0,0,0,0)
 	{ }
 
-	Widget::Widget(int offsetX, int offsetY, int width, int height) : widgetPositionX(offsetX), widgetPositionY(offsetY), widgetWidth(width), widgetHeight(height) 
-	{ }
+	Widget::Widget(int offsetX, int offsetY, int width, int height) : widgetPosition(glm::vec2(offsetX, offsetY)), widgetWidth(width), widgetHeight(height) 
+	{
+		cornerList = makeCorners();
+	}
 
-	Widget::Widget(std::shared_ptr<Widget> parentWidget) : widgetPositionX(0), widgetPositionY(0), widgetWidth(parentWidget->width()), widgetHeight(parentWidget->height())
+	Widget::Widget(std::shared_ptr<Widget> parentWidget) : widgetPosition(glm::vec2(0,0)), widgetWidth(parentWidget->width()), widgetHeight(parentWidget->height())
 	{
 		parent = parentWidget;
 		parentWidget->setChild(shared_from_this());
+		cornerList = makeCorners();
 	}
 
 	Widget::~Widget()
@@ -135,16 +138,10 @@ namespace OpenGLGUI
 
 
 	/* Widget Position Functions */
-	int Widget::X() const { return widgetPositionX; }
-	int Widget::Y() const { return widgetPositionY; }
-	int Widget::screenX() const { return parent != nullptr ? parent->screenX() + widgetPositionX : widgetPositionX;	}
-	int Widget::screenY() const	{ return parent != nullptr ? parent->screenY() + widgetPositionY : widgetPositionY;	}
-	Widget& Widget::setX(int x) { widgetPositionX = x; return *this; }
-	Widget& Widget::setY(int y) { widgetPositionY = y; return *this; }
-	Widget& Widget::setPosition(int x, int y) { setX(x); setY(y); return *this; }
-	Widget& Widget::setXDelta(int deltaX) { widgetPositionX += deltaX; return *this; }
-	Widget& Widget::setYDelta(int deltaY) { widgetPositionY += deltaY; return *this; }
-	Widget& Widget::setPositionDelta(int deltaX, int deltaY) { setXDelta(deltaX); setYDelta(deltaY); return *this; }
+	glm::vec2 Widget::position() const { return widgetPosition; }
+	Widget& Widget::setPosition(glm::vec2 position) { widgetPosition = position; return *this; }
+	Widget& Widget::setPositionDelta(glm::vec2 delta) { widgetPosition += delta; return *this; }
+	glm::vec2 Widget::screenPosition() const { return parent != nullptr ? parent->screenPosition() + widgetPosition : widgetPosition; }
 
 	/* Widget Size Functions */
 	int Widget::height() const { return widgetHeight; }
@@ -171,10 +168,10 @@ namespace OpenGLGUI
 
 
 	/* Widget Border Functions */
-	std::shared_ptr<Border> Widget::border() const { return borderDefinition; }
-	Widget& Widget::border(std::shared_ptr<Border> border) { borderDefinition = border; borderMesh = borderDefinition->createBorderMesh(corners());  return *this; }
+	std::shared_ptr<Border> Widget::border() const { return borderInstance.border(); }
+	Widget& Widget::border(const std::shared_ptr<Border> border) { borderInstance.border(border, corners());  return *this; }
 
-	std::shared_ptr<Brush> Widget::background() const { return backgroundDefinition; }
+	const std::shared_ptr<Brush> Widget::background() const { return backgroundDefinition; }
 	Widget& Widget::background(std::shared_ptr<Brush> background) { backgroundDefinition = background; return *this; }
 
 
@@ -204,12 +201,26 @@ namespace OpenGLGUI
 		}
 	}
 
-	bool Widget::containsPoint(int x, int y)
+	std::vector<glm::vec2> Widget::makeCorners()
 	{
-		int offsetX = screenX();
-		int offsetY = screenY();
-		return x >= offsetX && x <= offsetX + widgetWidth &&
-			y >= offsetY && y <= offsetY + widgetHeight;
+		return std::vector<glm::vec2> {
+			glm::vec2(0, 0),
+			glm::vec2(widgetWidth, 0),
+			glm::vec2(widgetWidth, widgetHeight),
+			glm::vec2(0, widgetHeight)
+		};
+	}
+
+	std::vector<glm::vec2>& Widget::corners()
+	{
+		return cornerList;
+	}
+
+	bool Widget::containsPoint(glm::vec2 point)
+	{
+		glm::vec2 offset = screenPosition();
+		return point.x >= offset.x && point.x <= offset.x + widgetWidth &&
+			point.y >= offset.y && point.y <= offset.y + widgetHeight;
 	}
 
 	bool operator==(const Widget& lhs, const Widget& rhs)

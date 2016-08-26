@@ -7,47 +7,55 @@ namespace {
 	std::string colourFragmentShaderSource = R"(
 #version 330 core
 uniform vec4 colour;
+//uniform sampler2d tex;
+
+//in textureCoordinates;
 out vec4 colourOut;
 
 void main()
 {
-    colourOut = colour;
+    //colourOut = texture(tex, textureCoordinates) * colour;
+	colourOut = colour;
 }
-	)";
+)";
 
 	std::string colourVertexShaderSource = R"(
 #version 330 core
 layout (location = 0) in vec2 position;
+//layout (location = 1) in vec2 texCoord;
 
 uniform vec2 offset;
 uniform vec2 dimension;
 uniform vec2 screenSize;
 
+//out vec2 textureCoordinates;
+
 void main()
 {
 	vec2 halfScreenSize = screenSize / 2;
     gl_Position = vec4((position * dimension + offset - halfScreenSize) / halfScreenSize, 0, 1);
+	//textureCoordinates = texCoord;
 } 
-	)";
+)";
 
 	bool initialized = false;
-	OpenGLGUI::Util::Shader *colourFragmentShader;
-	OpenGLGUI::Util::Shader *colourVertexShader;
-	OpenGLGUI::Util::ShaderProgram *solidFillProgram = nullptr;
+	OpenGLGUI::Util::Shader *fragmentShader;
+	OpenGLGUI::Util::Shader *vertexShader;
+	OpenGLGUI::Util::ShaderProgram *shaderProgram = nullptr;
 
 	void initializeGLData() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		colourFragmentShader = new OpenGLGUI::Util::Shader(colourFragmentShaderSource, GL_FRAGMENT_SHADER);
-		colourVertexShader = new OpenGLGUI::Util::Shader(colourVertexShaderSource, GL_VERTEX_SHADER);
-		solidFillProgram = new OpenGLGUI::Util::ShaderProgram({ colourFragmentShader, colourVertexShader });
+		fragmentShader = new OpenGLGUI::Util::Shader(colourFragmentShaderSource, GL_FRAGMENT_SHADER);
+		vertexShader = new OpenGLGUI::Util::Shader(colourVertexShaderSource, GL_VERTEX_SHADER);
+		shaderProgram = new OpenGLGUI::Util::ShaderProgram({ fragmentShader, vertexShader });
 
-		initialized = colourFragmentShader->valid() && colourVertexShader->valid() && solidFillProgram->valid();
+		initialized = fragmentShader->valid() && vertexShader->valid() && shaderProgram->valid();
 		if (!initialized)
 		{
-			delete solidFillProgram;
-			delete colourFragmentShader;
-			delete colourVertexShader;
+			delete shaderProgram;
+			delete fragmentShader;
+			delete vertexShader;
 		}
 	}
 }
@@ -56,11 +64,15 @@ namespace OpenGLGUI {
 	SolidFillBrush::SolidFillBrush() : SolidFillBrush(0,0,0)
 	{
 	}
-	SolidFillBrush::SolidFillBrush(const SolidFillBrush & right) : SolidFillBrush(right.r, right.g, right.b, right.a)
+	SolidFillBrush::SolidFillBrush(const SolidFillBrush & right) : SolidFillBrush(right.colour)
 	{
 	}
 
-	SolidFillBrush::SolidFillBrush(float red, float green, float blue, float alpha) : Brush(solidFillProgram), r(red), g(green), b(blue), a(alpha)
+	SolidFillBrush::SolidFillBrush(glm::vec4 colour) : Brush(shaderProgram), colour(colour)
+	{
+	}
+
+	SolidFillBrush::SolidFillBrush(float red, float green, float blue, float alpha) : SolidFillBrush(glm::vec4(red,green,blue,alpha))
 	{
 	}
 
@@ -76,15 +88,15 @@ namespace OpenGLGUI {
 		}
 		if (initialized && shader == nullptr)
 		{
-			shader = solidFillProgram;
+			shader = shaderProgram;
 		}
 		shader->enable();
-		setUniform4f("colour", r, g, b, a);
+		setUniform4f("colour", colour);
 	}
 
 	void SolidFillBrush::deactivate()
 	{
-		solidFillProgram->disable();
+		shaderProgram->disable();
 	}
 
 
@@ -95,5 +107,6 @@ namespace OpenGLGUI {
 		std::shared_ptr<SolidFillBrush> LightBlue = std::make_shared<SolidFillBrush>(0, 0.5, 0.8);
 		std::shared_ptr<SolidFillBrush> LightGrey = std::make_shared<SolidFillBrush>(0.7, 0.7, 0.7);
 		std::shared_ptr<SolidFillBrush> DarkGrey = std::make_shared<SolidFillBrush>(0.3, 0.3, 0.3);
+		std::shared_ptr<SolidFillBrush> White = std::make_shared<SolidFillBrush>(1, 1, 1);
 	}
 }

@@ -2,6 +2,7 @@
 #include <GL\glew.h>
 #include <string>
 #include <vector>
+#include <glm/glm.hpp>
 
 namespace OpenGLGUI {
 	namespace Util {
@@ -26,9 +27,9 @@ namespace OpenGLGUI {
 			void enable() { glUseProgram(shaderProgramID); }
 			void disable() { glUseProgram(0); }
 
-			void setUniform2f(const std::string &uniformName, float a, float b);
-			void setUniform3f(const std::string &uniformName, float a, float b, float c);
-			void setUniform4f(const std::string &uniformName, float a, float b, float c, float d);
+			void setUniform2f(const std::string &uniformName, glm::vec2 data);
+			void setUniform3f(const std::string &uniformName, glm::vec3 data);
+			void setUniform4f(const std::string &uniformName, glm::vec4 data);
 		private:
 			GLuint shaderProgramID = 0;
 		};
@@ -38,8 +39,9 @@ namespace OpenGLGUI {
 			int elementCount;
 			bool indexed = false;
 		public:
-			Mesh(const std::vector<float> &vertices);
-			Mesh(const std::vector<float> &vertices, const std::vector<unsigned int> &indices);
+			Mesh() {}
+			Mesh(const std::vector<glm::vec2> &vertices);
+			Mesh(const std::vector<glm::vec2> &vertices, const std::vector<unsigned int> &indices);
 			~Mesh();
 
 			void bind();

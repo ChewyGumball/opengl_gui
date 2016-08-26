@@ -5,10 +5,11 @@ namespace OpenGLGUI {
 	class SolidFillBrush : public Brush
 	{
 	private:
-		float r, g, b, a;
+		glm::vec4 colour;
 	public:
 		SolidFillBrush();
 		SolidFillBrush(const SolidFillBrush &right);
+		SolidFillBrush(glm::vec4 colour);
 		SolidFillBrush(float red, float green, float blue, float alpha = 1.0f);
 		~SolidFillBrush();
 
@@ -23,6 +24,7 @@ namespace OpenGLGUI {
 		extern std::shared_ptr<SolidFillBrush> LightBlue;
 		extern std::shared_ptr<SolidFillBrush> LightGrey;
 		extern std::shared_ptr<SolidFillBrush> DarkGrey;
+		extern std::shared_ptr<SolidFillBrush> White;
 	}
 }
 

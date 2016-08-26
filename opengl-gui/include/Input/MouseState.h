@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <glm/vec2.hpp>
 
 #include "InputState.h"
 
@@ -8,10 +9,8 @@ namespace OpenGLGUI
 	class MouseState
 	{
 	private:
-		int xPosition;
-		int yPosition;
-		int deltaPositionX;
-		int deltaPositionY;
+		glm::vec2 mousePosition;
+		glm::vec2 mouseDeltaPosition;
 		std::unordered_map<MouseButton, InputState> state;
 		MouseButton mostRecentlyChangedButton;
 		int wheelTicks;
@@ -19,10 +18,8 @@ namespace OpenGLGUI
 		MouseState();
 		~MouseState();
 
-		int x() const;
-		int y() const;
-		int deltaX() const;
-		int deltaY() const;
+		glm::vec2 position() const;
+		glm::vec2 deltaPosition() const;
 		int wheel() const;
 
 		void setPosition(int x, int y);

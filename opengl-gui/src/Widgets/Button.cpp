@@ -17,7 +17,7 @@ namespace OpenGLGUI
 	Button::Button(int width, int height, std::string & text) : Button(width, height, std::make_shared<TextArea>(text))
 	{}
 
-	Button::Button(int width, int height, std::shared_ptr<Widget> contents) : pane(std::make_shared<Pane>(0, 0, width, height)), contents(contents)
+	Button::Button(int width, int height, std::shared_ptr<Widget> contents) : backgroundRectangle(Rectangle(width, height)), contents(contents)
 	{}
 
 	Button::Button(std::shared_ptr<Widget> contents) : Button(contents->width(), contents->height(), contents)

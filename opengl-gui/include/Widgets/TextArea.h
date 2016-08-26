@@ -11,7 +11,6 @@ namespace OpenGLGUI
 
 	protected:
 		std::shared_ptr<std::string> textData; 
-		std::vector<std::pair<float, float>>& corners();
 
 	public:
 		TextArea() : TextArea("") {};
@@ -23,6 +22,6 @@ namespace OpenGLGUI
 		void text(std::string data) { textData = std::make_shared<std::string>(data); }
 		std::string& text() { return *textData; }
 
-		void draw(int offsetX, int offsetY);
+		void draw(glm::vec2 origin);
 	};
 }

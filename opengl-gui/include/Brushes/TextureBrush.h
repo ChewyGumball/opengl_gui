@@ -8,7 +8,7 @@ namespace OpenGLGUI
 	class TextureBrush : public Brush
 	{
 	protected:
-		std::shared_ptr<Texture> texture;
+		std::shared_ptr<Util::Texture> texture;
 	public:
 		TextureBrush();
 		virtual ~TextureBrush();

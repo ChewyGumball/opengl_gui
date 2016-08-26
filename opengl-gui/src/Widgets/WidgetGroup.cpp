@@ -89,7 +89,7 @@ namespace OpenGLGUI
 	{
 		for (auto w : registeredWidgets)
 		{
-			w->draw(0, 0);
+			w->draw(glm::vec2(0, 0));
 		}
 	}
 }

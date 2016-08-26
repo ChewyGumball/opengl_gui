@@ -76,7 +76,7 @@ OpenGLGUI::Util::ShaderProgram::~ShaderProgram() {
 	}
 }
 
-void OpenGLGUI::Util::ShaderProgram::setUniform2f(const std::string &uniformName, float a, float b)
+void OpenGLGUI::Util::ShaderProgram::setUniform2f(const std::string &uniformName, glm::vec2 data)
 {
 	GLint location = glGetUniformLocation(shaderProgramID, uniformName.c_str());
 	if (location == -1)
@@ -84,10 +84,10 @@ void OpenGLGUI::Util::ShaderProgram::setUniform2f(const std::string &uniformName
 		std::cout << "Could not find uniform '" << uniformName << "' in shader!" << std::endl;
 		return;
 	}
-	glUniform2f(location, a, b);
+	glUniform2f(location, data.x, data.y);
 }
 
-void OpenGLGUI::Util::ShaderProgram::setUniform3f(const std::string &uniformName, float a, float b, float c)
+void OpenGLGUI::Util::ShaderProgram::setUniform3f(const std::string &uniformName, glm::vec3 data)
 {
 	GLint location = glGetUniformLocation(shaderProgramID, uniformName.c_str());
 	if (location == -1)
@@ -95,10 +95,10 @@ void OpenGLGUI::Util::ShaderProgram::setUniform3f(const std::string &uniformName
 		std::cout << "Could not find uniform '" << uniformName << "' in shader!" << std::endl;
 		return;
 	}
-	glUniform3f(location, a, b, c);
+	glUniform3f(location, data.x, data.y, data.z);
 }
 
-void OpenGLGUI::Util::ShaderProgram::setUniform4f(const std::string &uniformName, float a, float b, float c, float d)
+void OpenGLGUI::Util::ShaderProgram::setUniform4f(const std::string &uniformName, glm::vec4 data)
 {
 	GLint location = glGetUniformLocation(shaderProgramID, uniformName.c_str());
 	if (location == -1)
@@ -106,19 +106,19 @@ void OpenGLGUI::Util::ShaderProgram::setUniform4f(const std::string &uniformName
 		std::cout << "Could not find uniform '" << uniformName << "' in shader!" << std::endl;
 		return;
 	}
-	glUniform4f(location, a, b, c, d);
+	glUniform4f(location, data.x, data.y, data.z, data.w);
 }
 
-OpenGLGUI::Util::Mesh::Mesh(const std::vector<float> &vertices)
+OpenGLGUI::Util::Mesh::Mesh(const std::vector<glm::vec2> &vertices)
 {
-	elementCount = vertices.size()  / 2;
+	elementCount = vertices.size();
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * 2 * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
@@ -126,7 +126,7 @@ OpenGLGUI::Util::Mesh::Mesh(const std::vector<float> &vertices)
 	glBindVertexArray(0);
 }
 
-OpenGLGUI::Util::Mesh::Mesh(const std::vector<float>& vertices, const std::vector<unsigned int>& indices)
+OpenGLGUI::Util::Mesh::Mesh(const std::vector<glm::vec2>& vertices, const std::vector<unsigned int>& indices)
 {
 	indexed = true;
 	elementCount = indices.size();
@@ -138,7 +138,7 @@ OpenGLGUI::Util::Mesh::Mesh(const std::vector<float>& vertices, const std::vecto
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * 2 * sizeof(float), vertices.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);

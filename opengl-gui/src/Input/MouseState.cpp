@@ -2,7 +2,7 @@
 
 namespace OpenGLGUI
 {
-	MouseState::MouseState() : xPosition(0), yPosition(0), wheelTicks(0), mostRecentlyChangedButton(MouseButton::Left)
+	MouseState::MouseState() : mousePosition(glm::vec2(0,0)), mouseDeltaPosition(glm::vec2(0,0)), wheelTicks(0), mostRecentlyChangedButton(MouseButton::Left)
 	{
 		state[MouseButton::Left] = InputState::Released;
 		state[MouseButton::Right] = InputState::Released;
@@ -13,22 +13,8 @@ namespace OpenGLGUI
 	{
 	}
 
-	int MouseState::x() const
-	{
-		return xPosition;
-	}
-	int MouseState::y() const
-	{
-		return yPosition;
-	}
-	int MouseState::deltaX() const
-	{
-		return deltaPositionX;
-	}
-	int MouseState::deltaY() const
-	{
-		return deltaPositionY;
-	}
+	glm::vec2 MouseState::position() const { return mousePosition; }
+	glm::vec2 MouseState::deltaPosition() const { return mouseDeltaPosition; }
 	int MouseState::wheel() const
 	{
 		return wheelTicks;
@@ -36,17 +22,14 @@ namespace OpenGLGUI
 
 	void MouseState::setPosition(int x, int y)
 	{
-		deltaPositionX = x - xPosition;
-		deltaPositionY = y - yPosition;
-		xPosition = x;
-		yPosition = y;
+		glm::vec2 newPosition(x, y);
+		mouseDeltaPosition = newPosition - mousePosition;
+		mousePosition = newPosition;
 	}
 	void MouseState::setPositionDelta(int deltaX, int deltaY)
 	{
-		xPosition += deltaX;
-		yPosition += deltaY;
-		deltaPositionX = deltaX;
-		deltaPositionY = deltaY;
+		mouseDeltaPosition = glm::vec2(deltaX, deltaY);
+		mousePosition += mouseDeltaPosition;
 	}
 	void MouseState::setWheelTicks(int ticks)
 	{
@@ -60,6 +43,7 @@ namespace OpenGLGUI
 	void MouseState::setButtonState(MouseButton button, InputState inputState)
 	{
 		state[button] = inputState;
+		mostRecentlyChangedButton = button;
 	}
 	void MouseState::clear()
 	{
@@ -67,8 +51,8 @@ namespace OpenGLGUI
 		{
 			key->second = InputState::Released;
 		}
-		xPosition = 0;
-		yPosition = 0;
+		mousePosition = glm::vec2(0, 0);
+		mouseDeltaPosition = glm::vec2(0, 0);
 		wheelTicks = 0; 
 		mostRecentlyChangedButton = MouseButton::Left;
 	}

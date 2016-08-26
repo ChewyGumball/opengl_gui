@@ -1,17 +1,16 @@
 #include "Widgets/TextArea.h"
 
 namespace {
-
+	std::vector<std::vector<int>> layoutText(std::string text, int width, int height)
+	{
+		return std::vector<std::vector<int>>();
+	}
 }
 
 namespace OpenGLGUI
 {
-	std::vector<std::pair<float, float>>& TextArea::corners()
-	{
-		return cornerList;
-	}
 
-	void TextArea::draw(int offsetX, int offsetY)
+	void TextArea::draw(glm::vec2 origin)
 	{
 	}
 }
