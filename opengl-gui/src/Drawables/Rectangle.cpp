@@ -8,10 +8,10 @@ namespace {
 
 	void initializeGLData() {
 		rectangleMesh = new Mesh({
-			glm::vec2(0.0, 0.0),
-			glm::vec2(1.0, 0.0),
-			glm::vec2(0.0, 1.0),
-			glm::vec2(1.0, 1.0)
+			glm::vec2(0.0, 0.0), glm::vec2(0.0, 0.0),
+			glm::vec2(1.0, 0.0), glm::vec2(1.0, 0.0),
+			glm::vec2(0.0, 1.0), glm::vec2(0.0, 1.0),
+			glm::vec2(1.0, 1.0), glm::vec2(1.0, 1.0)
 		});
 		initialized = true;
 	}

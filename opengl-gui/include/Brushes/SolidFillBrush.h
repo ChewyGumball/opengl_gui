@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
-#include "Brushes/Brush.h"
+#include "Brushes/TextureBrush.h"
 namespace OpenGLGUI {
-	class SolidFillBrush : public Brush
+	class SolidFillBrush : public TextureBrush
 	{
 	private:
 		glm::vec4 colour;
@@ -14,7 +14,6 @@ namespace OpenGLGUI {
 		~SolidFillBrush();
 
 		void activate();
-		void deactivate();
 	};
 
 	namespace Brushes {

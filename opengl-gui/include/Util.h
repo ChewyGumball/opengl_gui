@@ -2,6 +2,7 @@
 #include <GL\glew.h>
 #include <string>
 #include <vector>
+#include <memory>
 #include <glm/glm.hpp>
 
 namespace OpenGLGUI {
@@ -20,7 +21,7 @@ namespace OpenGLGUI {
 
 		class ShaderProgram {
 		public:
-			ShaderProgram(const std::vector<Shader*> &shaders);
+			ShaderProgram(const std::vector<std::shared_ptr<Shader>> &shaders);
 			~ShaderProgram();
 
 			bool valid() { return shaderProgramID != 0; }
@@ -40,8 +41,8 @@ namespace OpenGLGUI {
 			bool indexed = false;
 		public:
 			Mesh() {}
-			Mesh(const std::vector<glm::vec2> &vertices);
-			Mesh(const std::vector<glm::vec2> &vertices, const std::vector<unsigned int> &indices);
+			Mesh(const std::vector<glm::vec2> &vertexAttributes, bool interleaved = true);
+			Mesh(const std::vector<glm::vec2> &vertexAttributes, const std::vector<unsigned int> &indices, bool interleaved = true);
 			~Mesh();
 
 			void bind();
@@ -57,8 +58,12 @@ namespace OpenGLGUI {
 		private:
 			GLuint textureID;
 		public:
+			Texture(std::vector<unsigned char> bytes, int width, int height, GLuint inputFormat, GLuint storageFormat);
 			Texture(std::string filename, int width, int height, GLuint inputFormat, GLuint storageFormat);
 			~Texture();
+
+			bool valid() { return textureID != 0; }
+
 			void bind(GLuint textureUnit = 0);
 		};
 	}

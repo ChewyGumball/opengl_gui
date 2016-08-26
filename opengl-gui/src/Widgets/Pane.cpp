@@ -72,8 +72,6 @@ namespace OpenGLGUI
 	Widget& Pane::background(std::shared_ptr<Brush> background)
 	{
 		backgroundRectangle.setBrush(background);
-		Widget::background(background);
-
-		return *this;
+		return Widget::background(background);
 	}
 }

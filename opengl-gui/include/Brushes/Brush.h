@@ -3,15 +3,13 @@
 #include <Util.h>
 
 namespace OpenGLGUI {
-	class Util::ShaderProgram;
 	class Brush
 	{
 	protected:
-		Util::ShaderProgram *shader;
-		Brush(Util::ShaderProgram *shaderProgram) : shader(shaderProgram) {}
+		std::shared_ptr<Util::ShaderProgram> shader;
 
 	public:
-		Brush();
+		Brush(std::shared_ptr<Util::ShaderProgram> shaderProgram) : shader(shaderProgram) {}
 		virtual ~Brush();
 
 		virtual void activate();

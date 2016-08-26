@@ -55,6 +55,12 @@ namespace OpenGLGUI
 			meshIndices.push_back((startIndex + 4) % (vertexCount));
 		}
 
-		return Util::Mesh(meshVertices, meshIndices);
+		//add dummy texture coords
+		for (size_t i = 0; i < vertexCount; i++)
+		{
+			meshVertices.push_back(glm::vec2());
+		}
+
+		return Util::Mesh(meshVertices, meshIndices, false);
 	}
 }

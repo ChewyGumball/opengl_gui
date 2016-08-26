@@ -10,8 +10,10 @@ namespace OpenGLGUI
 	protected:
 		std::shared_ptr<Util::Texture> texture;
 	public:
-		TextureBrush();
-		virtual ~TextureBrush();
+		TextureBrush(std::shared_ptr<Util::Texture> texture);
+		~TextureBrush() {};
+
+		void activate();
 	};
 }
 
