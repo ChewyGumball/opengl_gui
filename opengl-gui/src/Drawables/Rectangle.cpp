@@ -1,4 +1,5 @@
 #include "Drawables\Rectangle.h"
+#include "Util/Mesh.h"
 
 namespace {
 	using OpenGLGUI::Util::Mesh;

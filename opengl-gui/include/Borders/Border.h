@@ -3,6 +3,7 @@
 
 #include "Brushes/SolidFillBrush.h"
 #include "Drawables/Drawable.h"
+#include "Util/Mesh.h"
 
 namespace OpenGLGUI
 {

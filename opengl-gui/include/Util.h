@@ -35,29 +35,13 @@ namespace OpenGLGUI {
 			GLuint shaderProgramID = 0;
 		};
 
-		class Mesh {
-		private:
-			int elementCount;
-			bool indexed = false;
-		public:
-			Mesh() {}
-			Mesh(const std::vector<glm::vec2> &vertexAttributes, bool interleaved = true);
-			Mesh(const std::vector<glm::vec2> &vertexAttributes, const std::vector<unsigned int> &indices, bool interleaved = true);
-			~Mesh();
-
-			void bind();
-			void unbind();
-			void draw();
-		private:
-			GLuint vao = 0;
-			GLuint vbo = 0;
-			GLuint ebo = 0;
-		};
+		
 
 		class Texture {
 		private:
 			GLuint textureID;
 		public:
+			Texture(GLuint id) : textureID(id) {}
 			Texture(std::vector<unsigned char> bytes, int width, int height, GLuint inputFormat, GLuint storageFormat);
 			Texture(std::string filename, int width, int height, GLuint inputFormat, GLuint storageFormat);
 			~Texture();

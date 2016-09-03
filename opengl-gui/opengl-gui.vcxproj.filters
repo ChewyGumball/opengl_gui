@@ -111,6 +111,18 @@
     <ClCompile Include="src\Borders\Border.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Drawables\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Util\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Brushes\FontBrush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\freetype-gl\src\utf8-utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Events\Event.h">
@@ -197,19 +209,7 @@
     <ClInclude Include="include\Widgets\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\freetype-gl\include\texture-atlas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\freetype-gl\include\texture-font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\freetype-gl\include\vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Drawables\Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\freetype-gl\include\vec234.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\glm\include\glm\detail\_features.hpp">
@@ -645,6 +645,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Borders\BorderInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Drawables\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Brushes\FontBrush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\texture-atlas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\texture-font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\vec234.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\utf8-utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -108,6 +108,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENGLGUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,10 +153,12 @@
   <ItemGroup>
     <ClInclude Include="include\Borders\BorderInstance.h" />
     <ClInclude Include="include\Brushes\Brush.h" />
+    <ClInclude Include="include\Brushes\FontBrush.h" />
     <ClInclude Include="include\Drawables\Rectangle.h" />
     <ClInclude Include="include\GLFW\GLFWInputController.h" />
     <ClInclude Include="include\Input\InputState.h" />
     <ClInclude Include="include\Text\Font.h" />
+    <ClInclude Include="include\Util\Mesh.h" />
     <ClInclude Include="include\Widgets\Button.h" />
     <ClInclude Include="include\Widgets\Canvas.h" />
     <ClInclude Include="include\Drawables\Drawable.h" />
@@ -179,10 +183,11 @@
     <ClInclude Include="include\Util.h" />
     <ClInclude Include="include\Brushes\SolidFillBrush.h" />
     <ClInclude Include="include\Brushes\TextureBrush.h" />
-    <ClInclude Include="lib\freetype-gl\include\texture-atlas.h" />
-    <ClInclude Include="lib\freetype-gl\include\texture-font.h" />
-    <ClInclude Include="lib\freetype-gl\include\vec234.h" />
-    <ClInclude Include="lib\freetype-gl\include\vector.h" />
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\texture-atlas.h" />
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\texture-font.h" />
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\utf8-utils.h" />
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\vec234.h" />
+    <ClInclude Include="lib\freetype-gl\include\freetype-gl\vector.h" />
     <ClInclude Include="lib\glm\include\glm\common.hpp" />
     <ClInclude Include="lib\glm\include\glm\detail\func_common.hpp" />
     <ClInclude Include="lib\glm\include\glm\detail\func_exponential.hpp" />
@@ -327,8 +332,10 @@
     <ClInclude Include="lib\glm\include\glm\vec3.hpp" />
     <ClInclude Include="lib\glm\include\glm\vec4.hpp" />
     <ClInclude Include="lib\glm\include\glm\vector_relational.hpp" />
+    <ClInclude Include="include\Drawables\Text.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lib\freetype-gl\src\utf8-utils.c" />
     <ClCompile Include="src\Borders\Border.cpp" />
     <ClCompile Include="lib\freetype-gl\src\texture-atlas.c" />
     <ClCompile Include="lib\freetype-gl\src\texture-font.c" />
@@ -336,10 +343,12 @@
     <ClCompile Include="lib\glm\include\glm\detail\glm.cpp" />
     <ClCompile Include="src\Borders\BorderInstance.cpp" />
     <ClCompile Include="src\Brushes\Brush.cpp" />
+    <ClCompile Include="src\Brushes\FontBrush.cpp" />
     <ClCompile Include="src\Brushes\SolidFillBrush.cpp" />
     <ClCompile Include="src\Drawables\Rectangle.cpp" />
     <ClCompile Include="src\GLFW\GLFWInputController.cpp" />
     <ClCompile Include="src\Text\Font.cpp" />
+    <ClCompile Include="src\Util\Mesh.cpp" />
     <ClCompile Include="src\Widgets\Button.cpp" />
     <ClCompile Include="src\Widgets\Canvas.cpp" />
     <ClCompile Include="src\Drawables\Drawable.cpp" />
@@ -361,6 +370,7 @@
     <ClCompile Include="src\Widgets\WidgetGroup.cpp" />
     <ClCompile Include="src\Util.cpp" />
     <ClCompile Include="src\Brushes\TextureBrush.cpp" />
+    <ClCompile Include="src\Drawables\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\glm\include\glm\detail\func_common.inl" />

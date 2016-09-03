@@ -12,5 +12,7 @@ namespace OpenGLGUI
 
 	void TextArea::draw(glm::vec2 origin)
 	{
+		glm::vec2 widgetOrigin = origin + widgetPosition;
+		lines->draw(widgetOrigin);
 	}
 }
