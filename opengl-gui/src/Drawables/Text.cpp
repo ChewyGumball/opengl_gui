@@ -30,15 +30,18 @@ namespace OpenGLGUI {
 			ftgl::texture_glyph_t *glyph = fontData->glyphOf(&currentChar);
 			if (i > 0)
 			{
-				currentPenOffest += glm::vec2(glyph->advance_x, 0);
+				currentPenOffest += glm::vec2(texture_glyph_get_kerning(glyph, &text[i - 1]), 0);
 			}
-			penOffsets.push_back(currentPenOffest);
+			penOffsets.push_back(currentPenOffest + glm::vec2(glyph->offset_x, glyph->offset_y - (int)glyph->height));
 			glyphScales.push_back(glm::vec2(glyph->width, glyph->height));
-			atlasOffsets.push_back(glm::vec2(glyph->s0, 1 - glyph->t0));
-			atlasScales.push_back(glm::vec2(glyph->s1 - glyph->s0, (1 - glyph->t1) - (1 - glyph->t0)));
+			atlasOffsets.push_back(glm::vec2(glyph->s0, glyph->t1));
+
+			//The scale seems to be on the wide side (floating point error?), so this reduction mutiplier stops other glyphs from seeping into this one
+			atlasScales.push_back(glm::vec2((glyph->s1 - glyph->s0) * 0.93, glyph->t0 - glyph->t1));
+			currentPenOffest += glm::vec2(glyph->advance_x, 0);
 		}
 
-		mesh = std::make_shared<Util::InstancedMesh>(vertices, std::vector<std::vector<glm::vec2>> {atlasOffsets, atlasScales, glyphScales, penOffsets}, text.size());
+		mesh = std::make_shared<Util::InstancedMesh>(vertices, std::vector<std::vector<glm::vec2>> {atlasOffsets, atlasScales, penOffsets, glyphScales}, text.size());
 	}
 
 	Text::~Text()

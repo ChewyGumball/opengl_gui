@@ -89,7 +89,7 @@ namespace OpenGLGUI {
 		}
 
 		InstancedMesh::InstancedMesh(const std::vector<glm::vec2>& vertices, const std::vector<std::vector<glm::vec2>> instancedAttributes, int instanceCount)
-			: Mesh(static_cast<int>(vertices.size()) / 2, false)
+			: Mesh(static_cast<int>(vertices.size()) / 2, false), instanceCount(instanceCount)
 		{
 			glGenVertexArrays(1, &vao);
 			glBindVertexArray(vao);

@@ -13,7 +13,8 @@ out vec4 colourOut;
 
 void main()
 {
-    colourOut = vec4(foregroundColour.rgb, foregroundColour.a * texture(tex, textureCoordinates).r); //mix(backgroundColour, foregroundColour, texture(tex, textureCoordinates).r);
+    
+    colourOut = mix(backgroundColour, foregroundColour, texture(tex, textureCoordinates).r);
 }
 )";
 
@@ -78,10 +79,10 @@ namespace OpenGLGUI
 			shader = shaderProgram;
 		}
 
+		Brush::activate();
 		fontData->texture()->bind();
 		shader->setUniform4f("foregroundColour", foregroundColour);
-		//shader->setUniform4f("backgroundColour", backgroundColour);
+		shader->setUniform4f("backgroundColour", backgroundColour);
 
-		Brush::activate();
 	}
 }
