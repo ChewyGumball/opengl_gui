@@ -32,4 +32,8 @@ namespace OpenGLGUI {
 	{
 		return texture_font_get_glyph(font, character);
 	}
+	int Font::height()
+	{
+		return font->ascender - font->descender + font->linegap;
+	}
 }

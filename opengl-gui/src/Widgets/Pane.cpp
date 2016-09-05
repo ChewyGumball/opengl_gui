@@ -29,6 +29,7 @@ namespace OpenGLGUI
 
 		if (child != nullptr)
 		{
+			glScissor(widgetOrigin.x, widgetOrigin.y, widgetWidth, widgetHeight);
 			child->draw(widgetOrigin);
 		}
 	}

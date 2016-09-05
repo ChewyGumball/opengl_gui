@@ -76,13 +76,14 @@ namespace OpenGLGUI
 		eraseOldSubscriptions();
 
 		bool keyEvent = type == EventType::KeyPressed || type == EventType::KeyReleased;
-		if (child != nullptr)
+		if (child != nullptr && (type != EventType::MouseButtonPressed || containsPoint(eventData.mouse.position())))
 		{
 			child->notify(type, eventData);
 		}
 
 		if (!eventData.consumed() && visible)
 		{
+			focused = type == EventType::MouseButtonPressed && containsPoint(eventData.mouse.position());
 			if (enabled && (!keyEvent || focused) && eventHandlers.count(type) > 0)
 			{
 				for(auto &callback : eventHandlers[type])

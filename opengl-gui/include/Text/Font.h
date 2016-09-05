@@ -18,5 +18,6 @@ namespace OpenGLGUI
 		std::shared_ptr<Util::Texture> texture() { return textureData; }
 
 		ftgl::texture_glyph_t* glyphOf(char *character);
+		int height();
 	};
 }

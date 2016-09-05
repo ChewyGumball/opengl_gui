@@ -87,9 +87,12 @@ namespace OpenGLGUI
 	/*Drawing Functions*/
 	void  WidgetGroup::draw()
 	{
+		glEnable(GL_SCISSOR_TEST);
+		glScissor(0, 0, 640, 480);
 		for (auto w : registeredWidgets)
 		{
 			w->draw(glm::vec2(0, 0));
 		}
+		glDisable(GL_SCISSOR_TEST);
 	}
 }

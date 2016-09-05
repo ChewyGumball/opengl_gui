@@ -26,8 +26,7 @@ namespace OpenGLGUI {
 
 		for (int i = 0; i < text.size(); i++)
 		{
-			char currentChar = text[i];
-			ftgl::texture_glyph_t *glyph = fontData->glyphOf(&currentChar);
+			ftgl::texture_glyph_t *glyph = fontData->glyphOf(&text[i]);
 			if (i > 0)
 			{
 				currentPenOffest += glm::vec2(texture_glyph_get_kerning(glyph, &text[i - 1]), 0);
