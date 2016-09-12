@@ -10,7 +10,7 @@
 
 namespace OpenGLGUI
 {
-	WidgetGroup::WidgetGroup()
+	WidgetGroup::WidgetGroup(int canvasWidth, int canvasHeight) : canvasSize(glm::vec2(canvasWidth, canvasHeight))
 	{
 	}
 	WidgetGroup::~WidgetGroup()
@@ -58,6 +58,11 @@ namespace OpenGLGUI
 		notifyWidgetsOfMouseEvent(EventType::MouseMove);
 	}
 
+	void WidgetGroup::setCanvasSize(int width, int height)
+	{
+		canvasSize = glm::vec2(width, height);
+	}
+
 	void  WidgetGroup::clearKeyboardState()
 	{
 		keyboardState.clear();
@@ -88,10 +93,11 @@ namespace OpenGLGUI
 	void  WidgetGroup::draw()
 	{
 		glEnable(GL_SCISSOR_TEST);
-		glScissor(0, 0, 640, 480);
+		glViewport(0, 0, canvasSize.x, canvasSize.y);
+		glScissor(0, 0, canvasSize.x, canvasSize.y);
 		for (auto w : registeredWidgets)
 		{
-			w->draw(glm::vec2(0, 0));
+			w->draw(glm::vec2(0, 0), canvasSize);
 		}
 		glDisable(GL_SCISSOR_TEST);
 	}

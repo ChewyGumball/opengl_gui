@@ -39,6 +39,8 @@ namespace {
 	};
 
 	std::vector<InputEvent> inputQueue;
+	int windowWidth;
+	int windowHeight;
 
 	void keyboardCallback(GLFWwindow *window, int key, int scanCode, int action, int mods)
 	{
@@ -47,8 +49,14 @@ namespace {
 
 	void mouseMoveCallback(GLFWwindow *window, double xPosition, double yPosition)
 	{
-		std::cout << "(" << xPosition << "," << 480 - yPosition << ")\n";
-		inputQueue.emplace_back(OpenGLGUI::EventType::MouseMove, xPosition, 480 - yPosition);
+		std::cout << "(" << xPosition << "," << windowHeight - yPosition << ")\n";
+		inputQueue.emplace_back(OpenGLGUI::EventType::MouseMove, xPosition, windowHeight - yPosition);
+	}
+	
+	void windowSizeCallback(GLFWwindow* window, int width, int height)
+	{
+		windowWidth = width;
+		windowHeight = height;
 	}
 
 	void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
@@ -69,8 +77,12 @@ namespace OpenGLGUI {
 			glfwSetCursorPosCallback(window, mouseMoveCallback);
 			glfwSetMouseButtonCallback(window, mouseButtonCallback);
 			glfwSetScrollCallback(window, mouseScrollCallback);
+			glfwSetWindowSizeCallback(window, windowSizeCallback); 
+
+			glfwGetWindowSize(window, &windowWidth, &windowHeight);
 		}
 		void applyInputQueue(WidgetGroup &w) {
+			w.setCanvasSize(windowWidth, windowHeight);
 			for (InputEvent &event : inputQueue)
 			{
 				switch (event.type)

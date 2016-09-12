@@ -72,7 +72,7 @@ namespace OpenGLGUI
 	TextArea::TextArea(std::shared_ptr<std::string> data, std::shared_ptr<FontBrush> font, int width, int height) : Widget(0,0,width,height), textData(data), fontHeight(font->font()->height()), lines(layoutText(*data, font, widgetWidth, widgetHeight))
 	{
 	}
-	void TextArea::draw(glm::vec2 origin)
+	void TextArea::draw(glm::vec2 origin, glm::vec2 canvasSize)
 	{
 		glm::vec2 widgetOrigin = origin + widgetPosition;
 		//glScissor(widgetOrigin.x, widgetOrigin.y, widgetWidth, widgetHeight);
@@ -81,7 +81,7 @@ namespace OpenGLGUI
 		{
 			for (auto& text : line)
 			{
-				text.draw(widgetOrigin - glm::vec2(0, lineCount * fontHeight));
+				text.draw(widgetOrigin - glm::vec2(0, lineCount * fontHeight), canvasSize);
 				lineCount++;
 			}
 		}

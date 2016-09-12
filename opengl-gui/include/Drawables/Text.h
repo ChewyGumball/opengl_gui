@@ -15,7 +15,7 @@ namespace OpenGLGUI {
 		Text(std::string& text, std::shared_ptr<FontBrush> font);
 		~Text();
 
-		void draw(glm::vec2 origin);
+		void draw(glm::vec2 origin, glm::vec2 canvasSize);
 	};
 }
 

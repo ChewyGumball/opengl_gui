@@ -5,6 +5,6 @@ namespace OpenGLGUI
 {
 	struct Drawable
 	{
-		virtual void draw(glm::vec2 origin) = 0;
+		virtual void draw(glm::vec2 origin, glm::vec2 canvasSize) = 0;
 	};
 }

@@ -47,11 +47,11 @@ namespace OpenGLGUI {
 	{
 	}
 
-	void Text::draw(glm::vec2 origin)
+	void Text::draw(glm::vec2 origin, glm::vec2 canvasSize)
 	{
 		brush->activate();
 		brush->setUniform2f("offset", origin);
-		brush->setUniform2f("screenSize", glm::vec2(640, 480));
+		brush->setUniform2f("screenSize", canvasSize);
 		mesh->draw();
 		brush->deactivate();
 	}

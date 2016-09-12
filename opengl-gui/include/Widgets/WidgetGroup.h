@@ -24,8 +24,10 @@ namespace OpenGLGUI
 		void notifyWidgetsOfMouseEvent(EventType eventType);
 		void notifyWidgetsOfKeyboardEvent(EventType eventType);
 
+		glm::vec2 canvasSize;
+
 	public:
-		WidgetGroup();
+		WidgetGroup(int canvasWidth, int canvasHeight);
 		~WidgetGroup();
 
 		void registerWidget(std::shared_ptr<Widget> widget);
@@ -37,6 +39,8 @@ namespace OpenGLGUI
 		void setMouseWheelDelta(int delta);
 		void setMousePosition(int x, int y);
 		void setMousePositionDelta(int deltaX, int deltaY);
+
+		void setCanvasSize(int width, int height);
 
 		void clearKeyboardState();
 		void clearMouseState();

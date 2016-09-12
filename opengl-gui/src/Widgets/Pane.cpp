@@ -20,17 +20,17 @@ namespace OpenGLGUI
 	{
 	}
 		
-	void OpenGLGUI::Pane::draw(glm::vec2 origin)
+	void OpenGLGUI::Pane::draw(glm::vec2 origin, glm::vec2 canvasSize)
 	{	
 		glm::vec2 widgetOrigin = origin + widgetPosition;
 
-		backgroundRectangle.draw(widgetOrigin);
-		borderInstance.draw(widgetOrigin);
+		backgroundRectangle.draw(widgetOrigin, canvasSize);
+		borderInstance.draw(widgetOrigin, canvasSize);
 
 		if (child != nullptr)
 		{
 			glScissor(widgetOrigin.x, widgetOrigin.y, widgetWidth, widgetHeight);
-			child->draw(widgetOrigin);
+			child->draw(widgetOrigin, canvasSize);
 		}
 	}
 

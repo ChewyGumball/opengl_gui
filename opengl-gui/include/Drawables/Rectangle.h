@@ -17,6 +17,6 @@ namespace OpenGLGUI
 
 		void setBrush(std::shared_ptr<Brush> brush);
 
-		void draw(glm::vec2 origin);
+		void draw(glm::vec2 origin, glm::vec2 canvasSize);
 	};
 }

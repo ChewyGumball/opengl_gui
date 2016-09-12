@@ -15,7 +15,7 @@ namespace OpenGLGUI
 		mesh = borderDefinition->createMeshFromCorners(corners);
 	}
 
-	void BorderInstance::draw(glm::vec2 origin)
+	void BorderInstance::draw(glm::vec2 origin, glm::vec2 canvasSize)
 	{
 		if (borderDefinition)
 		{
@@ -23,7 +23,7 @@ namespace OpenGLGUI
 			borderBrush.activate();
 			borderBrush.setUniform2f("offset", origin);
 			borderBrush.setUniform2f("dimension", glm::vec2(1, 1));
-			borderBrush.setUniform2f("screenSize", glm::vec2(640, 480));
+			borderBrush.setUniform2f("screenSize", canvasSize);
 			mesh.draw();
 			borderBrush.deactivate();
 		}

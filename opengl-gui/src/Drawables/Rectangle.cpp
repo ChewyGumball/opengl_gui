@@ -30,7 +30,7 @@ namespace OpenGLGUI
 		this->brush = brush;
 	}
 
-	void Rectangle::draw(glm::vec2 origin)
+	void Rectangle::draw(glm::vec2 origin, glm::vec2 canvasSize)
 	{
 		if (!initialized)
 		{
@@ -39,7 +39,7 @@ namespace OpenGLGUI
 		brush->activate();
 		brush->setUniform2f("offset", origin);
 		brush->setUniform2f("dimension", glm::vec2(width, height));
-		brush->setUniform2f("screenSize", glm::vec2(640, 480));
+		brush->setUniform2f("screenSize", canvasSize);
 		rectangleMesh->draw();
 		brush->deactivate();
 	}

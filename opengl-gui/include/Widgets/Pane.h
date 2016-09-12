@@ -16,7 +16,7 @@ namespace OpenGLGUI
 		Pane(std::shared_ptr<Widget> parent);
 		virtual ~Pane() {};
 
-		void draw(glm::vec2 origin);
+		void draw(glm::vec2 origin, glm::vec2 canvasSize);
 		void setDraggable(bool draggable);
 
 		const std::shared_ptr<Brush> Pane::background() const;

@@ -25,6 +25,6 @@ namespace OpenGLGUI
 		void text(std::string data) { textData = std::make_shared<std::string>(data); }
 		std::string& text() { return *textData; }
 
-		void draw(glm::vec2 origin);
+		void draw(glm::vec2 origin, glm::vec2 canvasSize);
 	};
 }
